@@ -101,7 +101,7 @@
     .slide {
       position: static; inset: auto;
       opacity: 1; pointer-events: auto;
-      min-height: 0; padding: 18px 0;
+      display: block; padding: 0; min-height: 0; overflow: hidden;
       border-bottom: 1px solid var(--paper-line);
     }
     .deck-progress, .deck-ui, .deck-hint, .deck-timer { display: none !important; }
@@ -921,15 +921,24 @@
     const stage = slide.querySelector('.stage');
     if (!stage) return;
 
-    // mobil: fit přesně na šířku displeje; šířku bereme z inline stylu (vždy známá,
-    // nezávisí na layoutu/fontech) → spolehlivé. Slajdy se scrollují svisle.
+    // mobil: zmenšení přes transform (zachová rozložení řádků → žádné překrývání),
+    // fit přesně na šířku displeje; slajdy se scrollují svisle.
     if (mqMobile.matches) {
       const knownW = parseFloat(stage.style.width) || stage.offsetWidth;
-      if (knownW) stage.style.zoom = window.innerWidth / knownW;
+      if (!knownW) return;
+      stage.style.zoom = '';
+      stage.style.transform = 'none';
+      const natH = stage.offsetHeight;            // přirozená výška (řádkování v pořádku)
+      const s = window.innerWidth / knownW;
+      stage.style.transformOrigin = 'top left';
+      stage.style.transform = 'scale(' + s + ')';
+      slide.style.height = Math.ceil(natH * s) + 'px';  // sebere prázdné místo po transformu
       return;
     }
 
-    // desktop/plátno: fit na šířku i výšku; zoom = ostré písmo (žádné upscaling rozmazání)
+    // desktop/plátno: fit na šířku i výšku přes zoom (ostré písmo na projektoru) — beze změny
+    stage.style.transform = 'none';
+    slide.style.height = '';
     stage.style.zoom = '1';
     const w = stage.offsetWidth, h = stage.offsetHeight;
     if (!w || !h) return;

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prezentace · Václav Šlajs</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #14110f; --paper: #f4efe6; --paper-line: #e6ddcd; --card: #fffdf8;
+    --muted: #6b6256; --amber: #c2410c;
+  }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--paper);
+    background-image: radial-gradient(circle at 1px 1px, rgba(20,17,15,0.04) 1px, transparent 0);
+    background-size: 22px 22px;
+    color: var(--ink);
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 48px 24px;
+  }
+  .wrap { max-width: 720px; width: 100%; }
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 12px;
+  }
+  h1 {
+    font-family: 'Space Grotesk', sans-serif; font-size: 44px; font-weight: 700;
+    line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 10px;
+  }
+  h1 .hl { background: linear-gradient(120deg, transparent 60%, #ffe08a 60%); padding: 0 4px; }
+  .lede { font-size: 16px; color: var(--muted); line-height: 1.55; margin-bottom: 40px; }
+
+  .talk {
+    display: flex; align-items: center; gap: 20px; text-decoration: none; color: var(--ink);
+    background: var(--card); border: 1.5px solid var(--paper-line); border-radius: 8px;
+    padding: 22px 26px; box-shadow: 4px 5px 0 rgba(20,17,15,0.06);
+    transition: transform 0.15s, box-shadow 0.15s; margin-bottom: 16px;
+  }
+  .talk:hover { transform: translate(-1px,-1px); box-shadow: 6px 7px 0 rgba(20,17,15,0.10); }
+  .talk .date {
+    font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--amber);
+    font-weight: 500; flex: none; width: 92px;
+  }
+  .talk .meta b { font-family: 'Space Grotesk', sans-serif; font-size: 19px; font-weight: 700; display: block; letter-spacing: -0.01em; }
+  .talk .meta span { font-size: 13px; color: var(--muted); }
+  .talk .arrow { margin-left: auto; font-family: 'Space Grotesk', sans-serif; font-size: 24px; color: var(--muted); }
+
+  .foot { margin-top: 36px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); }
+  .foot a { color: var(--amber); text-decoration: none; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="eyebrow">Václav Šlajs · prezentace</div>
+    <h1>Slajdy z <span class="hl">talků</span></h1>
+    <p class="lede">Veřejné prezentace. Klikni na talk pro spuštění decku — ovládá se šipkami nebo klikem.</p>
+
+    <a class="talk" href="./2026-06-15-ai-that-works/">
+      <span class="date">2026-06-15</span>
+      <span class="meta">
+        <b>AI aplikace jako disciplína IT</b>
+        <span>AI That Works · Brno Meetup #9</span>
+      </span>
+      <span class="arrow">→</span>
+    </a>
+
+    <div class="foot">vaclav.slajs@ysoft.com · <a href="https://www.linkedin.com/in/vaclav-slajs/">LinkedIn</a></div>
+  </div>
+</body>
+</html>

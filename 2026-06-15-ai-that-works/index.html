@@ -879,7 +879,7 @@
 </div>
 
 <div class="deck-progress"><div class="deck-progress-fill"></div></div>
-<div class="deck-timer" id="timer" title="T = skrýt/zobrazit · R = restart">15:00</div>
+<div class="deck-timer hidden" id="timer" title="T = zobrazit a spustit · R = restart">15:00</div>
 <div class="deck-hint">← → nebo mezerník pro další · F = celá obrazovka · T = časovač</div>
 <div class="deck-ui">
   <div class="deck-dots"></div>
@@ -939,7 +939,10 @@
       if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
       else document.exitFullscreen?.();
     }
-    else if (e.key === 't' || e.key === 'T') { timerEl.classList.toggle('hidden'); }
+    else if (e.key === 't' || e.key === 'T') {
+      const nowHidden = timerEl.classList.toggle('hidden');
+      if (!nowHidden) { timerStart = Date.now(); tickTimer(); } // zobrazeno → spustí od začátku
+    }
     else if (e.key === 'r' || e.key === 'R') { timerStart = Date.now(); tickTimer(); }
   });
 

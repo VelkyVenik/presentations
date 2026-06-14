@@ -95,17 +95,18 @@
   .deck-timer.hidden { display: none; }
 
   /* ---------- mobil: scrollovatelný stack, fit na šířku ---------- */
-  @media (max-width: 819px) {
-    html, body { height: auto; overflow-x: hidden; overflow-y: auto; }
-    .deck { position: static; inset: auto; }
-    .slide {
-      position: static; inset: auto;
-      opacity: 1; pointer-events: auto;
-      display: block; padding: 0; min-height: 0; overflow: hidden;
-      border-bottom: 1px solid var(--paper-line);
-    }
-    .deck-progress, .deck-ui, .deck-hint, .deck-timer { display: none !important; }
+  /* ---------- mobil: nativní fit přes viewport (width=1400) + nativní pinch-zoom ---------- */
+  html.m, html.m body { height: auto; overflow-x: hidden; overflow-y: auto; }
+  html.m .deck { position: static; inset: auto; }
+  html.m .slide {
+    position: static; inset: auto;
+    opacity: 1; pointer-events: auto;
+    display: flex; justify-content: center; align-items: flex-start;
+    padding: 26px 0; min-height: 0;
+    border-bottom: 1px solid var(--paper-line);
   }
+  html.m .stage { transform: none !important; zoom: 1 !important; }
+  html.m .deck-progress, html.m .deck-ui, html.m .deck-hint, html.m .deck-timer { display: none !important; }
 
   /* ============================================================
      SLIDE 1 — Title
@@ -915,28 +916,21 @@
   });
   const dots = [...dotsWrap.children];
 
-  const mqMobile = window.matchMedia('(max-width: 819px)');
+  // Detekce mobilu JEDNOU, PŘED změnou viewportu (potom by matchMedia vracela jiné).
+  const MOBILE = window.matchMedia('(max-width: 819px)').matches;
+  if (MOBILE) {
+    document.documentElement.classList.add('m');
+    const vp = document.querySelector('meta[name=viewport]');
+    // šířka nejširšího slajdu → prohlížeč fitne celou stránku na displej,
+    // pinch-zoom funguje nativně a ostře, JS do škálování nezasahuje
+    if (vp) vp.setAttribute('content', 'width=1400');
+  }
 
   function fit(slide) {
+    if (MOBILE) return; // mobil: škálování řeší viewport + nativní zoom, ne JS
     const stage = slide.querySelector('.stage');
     if (!stage) return;
-
-    // mobil: zmenšení přes transform (zachová rozložení řádků → žádné překrývání),
-    // fit přesně na šířku displeje; slajdy se scrollují svisle.
-    if (mqMobile.matches) {
-      const knownW = parseFloat(stage.style.width) || stage.offsetWidth;
-      if (!knownW) return;
-      stage.style.zoom = '';
-      stage.style.transform = 'none';
-      const natH = stage.offsetHeight;            // přirozená výška (řádkování v pořádku)
-      const s = window.innerWidth / knownW;       // každý slajd na celou šířku displeje
-      stage.style.transformOrigin = 'top left';
-      stage.style.transform = 'scale(' + s + ')';
-      slide.style.height = Math.ceil(natH * s) + 'px';  // sebere prázdné místo po transformu
-      return;
-    }
-
-    // desktop/plátno: fit na šířku i výšku přes zoom (ostré písmo na projektoru) — beze změny
+    // desktop/plátno: fit na šířku i výšku přes zoom (ostré písmo na projektoru)
     stage.style.transform = 'none';
     slide.style.height = '';
     stage.style.zoom = '1';
@@ -974,27 +968,14 @@
   });
 
   document.querySelector('.deck').addEventListener('click', (e) => {
-    if (mqMobile.matches) return; // na mobilu se scrolluje, klik nepřepíná
+    if (MOBILE) return; // na mobilu se scrolluje, klik nepřepíná
     if (e.target.closest('a') || e.target.closest('.deck-dots')) return;
     show(i + 1);
   });
 
-  let lastW = window.innerWidth;
-  window.addEventListener('resize', () => {
-    const w = window.innerWidth;
-    if (mqMobile.matches) {
-      // na mobilu přepočítat JEN když se změní šířka (rotace) — ne při pinch-zoomu,
-      // který na iOS taky střílí resize a jinak by uprostřed přiblížení rozbil slajd
-      if (w === lastW) return;
-      lastW = w;
-      slides.forEach(fit);
-    } else {
-      lastW = w;
-      fit(slides[i]);
-    }
-  });
-  window.addEventListener('load', () => slides.forEach(fit));
-  window.addEventListener('orientationchange', () => setTimeout(() => { lastW = window.innerWidth; slides.forEach(fit); }, 250));
+  // refit jen na desktopu; na mobilu škáluje viewport sám, nic nepřepočítáváme
+  window.addEventListener('resize', () => { if (!MOBILE) fit(slides[i]); });
+  window.addEventListener('load', () => { if (!MOBILE) slides.forEach(fit); });
 
   // presenter timer: odpočet od délky talku, startuje při načtení (refresh = restart)
   const TALK_MINUTES = 15;

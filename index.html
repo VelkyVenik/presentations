@@ -23,6 +23,11 @@
     padding: 48px 24px;
   }
   .wrap { max-width: 720px; width: 100%; }
+  .avatar {
+    width: 84px; height: 84px; border-radius: 50%; object-fit: cover;
+    border: 2px solid var(--paper-line); display: block; margin-bottom: 24px;
+    box-shadow: 4px 5px 0 rgba(20,17,15,0.06);
+  }
   .eyebrow {
     font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 3px;
     text-transform: uppercase; color: var(--muted); margin-bottom: 12px;
@@ -55,6 +60,7 @@
 </head>
 <body>
   <div class="wrap">
+    <img class="avatar" src="shared/me.jpeg" alt="Václav Šlajs">
     <div class="eyebrow">Václav Šlajs · talks</div>
     <h1>Slides from my <span class="hl">talks</span></h1>
     <p class="lede">Public talk decks. Click a talk to open it — navigate with the arrow keys or by clicking.</p>

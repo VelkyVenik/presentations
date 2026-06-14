@@ -412,12 +412,12 @@
   @scope (#s5) {
     .wrap { max-width: 820px; text-align: center; }
     .eyebrow {
-      font-family: 'JetBrains Mono', monospace; font-size: 13px; letter-spacing: 3px;
-      text-transform: uppercase; color: var(--amber); margin-bottom: 22px;
+      font-family: 'JetBrains Mono', monospace; font-size: 19px; letter-spacing: 3px;
+      text-transform: uppercase; color: var(--amber); margin-bottom: 20px;
     }
     h1 {
-      font-family: 'Space Grotesk', sans-serif; font-size: 46px; font-weight: 700;
-      line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 14px;
+      font-family: 'Space Grotesk', sans-serif; font-size: 34px; font-weight: 700;
+      line-height: 1.12; letter-spacing: -0.02em; margin-bottom: 14px;
     }
     h1 .hl { background: linear-gradient(120deg, transparent 60%, #ffe08a 60%); padding: 0 4px; }
     .lede { font-size: 17px; color: var(--muted); line-height: 1.55; max-width: 600px; margin: 0 auto 48px; }
@@ -916,6 +916,7 @@
   const dots = [...dotsWrap.children];
 
   const mqMobile = window.matchMedia('(max-width: 819px)');
+  const MOBILE_REF_W = 1400; // nejširší slajd → společné měřítko pro konzistentní velikost písma
 
   function fit(slide) {
     const stage = slide.querySelector('.stage');
@@ -929,9 +930,10 @@
       stage.style.zoom = '';
       stage.style.transform = 'none';
       const natH = stage.offsetHeight;            // přirozená výška (řádkování v pořádku)
-      const s = window.innerWidth / knownW;
+      const s = window.innerWidth / MOBILE_REF_W; // JEDNOTNÉ měřítko → stejně velké písmo všude
+      const tx = Math.max(0, (window.innerWidth - knownW * s) / 2); // užší slajdy vycentrovat
       stage.style.transformOrigin = 'top left';
-      stage.style.transform = 'scale(' + s + ')';
+      stage.style.transform = 'translateX(' + tx + 'px) scale(' + s + ')';
       slide.style.height = Math.ceil(natH * s) + 'px';  // sebere prázdné místo po transformu
       return;
     }

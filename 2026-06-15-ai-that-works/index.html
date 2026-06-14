@@ -916,7 +916,6 @@
   const dots = [...dotsWrap.children];
 
   const mqMobile = window.matchMedia('(max-width: 819px)');
-  const MOBILE_REF_W = 1400; // nejširší slajd → společné měřítko pro konzistentní velikost písma
 
   function fit(slide) {
     const stage = slide.querySelector('.stage');
@@ -930,10 +929,9 @@
       stage.style.zoom = '';
       stage.style.transform = 'none';
       const natH = stage.offsetHeight;            // přirozená výška (řádkování v pořádku)
-      const s = window.innerWidth / MOBILE_REF_W; // JEDNOTNÉ měřítko → stejně velké písmo všude
-      const tx = Math.max(0, (window.innerWidth - knownW * s) / 2); // užší slajdy vycentrovat
+      const s = window.innerWidth / knownW;       // každý slajd na celou šířku displeje
       stage.style.transformOrigin = 'top left';
-      stage.style.transform = 'translateX(' + tx + 'px) scale(' + s + ')';
+      stage.style.transform = 'scale(' + s + ')';
       slide.style.height = Math.ceil(natH * s) + 'px';  // sebere prázdné místo po transformu
       return;
     }

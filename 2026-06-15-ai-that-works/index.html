@@ -94,6 +94,19 @@
   .deck-timer.danger { color: #b91c1c; border-color: #e6a3a3; font-weight: 700; }
   .deck-timer.hidden { display: none; }
 
+  /* ---------- mobil: scrollovatelný stack, fit na šířku ---------- */
+  @media (max-width: 819px) {
+    html, body { height: auto; overflow-x: hidden; overflow-y: auto; }
+    .deck { position: static; inset: auto; }
+    .slide {
+      position: static; inset: auto;
+      opacity: 1; pointer-events: auto;
+      min-height: 0; padding: 18px 0;
+      border-bottom: 1px solid var(--paper-line);
+    }
+    .deck-progress, .deck-ui, .deck-hint, .deck-timer { display: none !important; }
+  }
+
   /* ============================================================
      SLIDE 1 — Title
      ============================================================ */
@@ -853,7 +866,7 @@
         <h1>Technologie už tu je.<br>Teď je na čase posouvat <span class="hl">mindset</span>.</h1>
         <div class="qr-block">
           <img src="https://api.qrserver.com/v1/create-qr-code/?size=400x400&margin=0&data=https%3A%2F%2Ftalks.slajs.eu%2F2026-06-15-ai-that-works%2F" alt="QR kód na slajdy: talks.slajs.eu/2026-06-15-ai-that-works/">
-          <span class="cap">Naskenuj — slajdy online</span>
+          <span class="cap">slajdy online</span>
         </div>
 
         <div class="contacts">
@@ -902,6 +915,8 @@
   });
   const dots = [...dotsWrap.children];
 
+  const mqMobile = window.matchMedia('(max-width: 819px)');
+
   function fit(slide) {
     const stage = slide.querySelector('.stage');
     if (!stage) return;
@@ -909,6 +924,11 @@
     stage.style.zoom = '1';
     const w = stage.offsetWidth, h = stage.offsetHeight;
     if (!w || !h) return;
+    if (mqMobile.matches) {
+      // mobil: fit na šířku, slajdy se scrollují svisle
+      stage.style.zoom = (window.innerWidth * 0.96) / w;
+      return;
+    }
     const margin = 0.94;
     const scale = Math.min(
       (window.innerWidth * margin) / w,
@@ -947,11 +967,12 @@
   });
 
   document.querySelector('.deck').addEventListener('click', (e) => {
+    if (mqMobile.matches) return; // na mobilu se scrolluje, klik nepřepíná
     if (e.target.closest('a') || e.target.closest('.deck-dots')) return;
     show(i + 1);
   });
 
-  window.addEventListener('resize', () => fit(slides[i]));
+  window.addEventListener('resize', () => { mqMobile.matches ? slides.forEach(fit) : fit(slides[i]); });
 
   // presenter timer: odpočet od délky talku, startuje při načtení (refresh = restart)
   const TALK_MINUTES = 15;

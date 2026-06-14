@@ -979,9 +979,22 @@
     show(i + 1);
   });
 
-  window.addEventListener('resize', () => { mqMobile.matches ? slides.forEach(fit) : fit(slides[i]); });
+  let lastW = window.innerWidth;
+  window.addEventListener('resize', () => {
+    const w = window.innerWidth;
+    if (mqMobile.matches) {
+      // na mobilu přepočítat JEN když se změní šířka (rotace) — ne při pinch-zoomu,
+      // který na iOS taky střílí resize a jinak by uprostřed přiblížení rozbil slajd
+      if (w === lastW) return;
+      lastW = w;
+      slides.forEach(fit);
+    } else {
+      lastW = w;
+      fit(slides[i]);
+    }
+  });
   window.addEventListener('load', () => slides.forEach(fit));
-  window.addEventListener('orientationchange', () => setTimeout(() => slides.forEach(fit), 250));
+  window.addEventListener('orientationchange', () => setTimeout(() => { lastW = window.innerWidth; slides.forEach(fit); }, 250));
 
   // presenter timer: odpočet od délky talku, startuje při načtení (refresh = restart)
   const TALK_MINUTES = 15;

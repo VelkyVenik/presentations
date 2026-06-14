@@ -80,6 +80,20 @@
   }
   .deck-hint.gone { opacity: 0; }
 
+  /* ---------- presenter timer ---------- */
+  .deck-timer {
+    position: fixed; top: 14px; right: 16px; z-index: 60;
+    font-family: 'JetBrains Mono', monospace; font-size: 15px; font-weight: 500;
+    letter-spacing: 1px; color: var(--muted);
+    background: var(--card); border: 1.5px solid var(--paper-line);
+    border-radius: 8px; padding: 6px 12px;
+    box-shadow: 3px 4px 0 rgba(20,17,15,0.06);
+    user-select: none;
+  }
+  .deck-timer.warn   { color: #9a3412; border-color: #e7b893; }
+  .deck-timer.danger { color: #b91c1c; border-color: #e6a3a3; font-weight: 700; }
+  .deck-timer.hidden { display: none; }
+
   /* ============================================================
      SLIDE 1 — Title
      ============================================================ */
@@ -418,7 +432,7 @@
       border-radius: 16px; padding: 18px 18px 14px;
       box-shadow: 4px 5px 0 rgba(20,17,15,0.06);
     }
-    .qr-block img { width: 184px; height: 184px; display: block; border-radius: 6px; background: #fff; }
+    .qr-block img { width: 128px; height: 128px; display: block; border-radius: 6px; background: #fff; }
     .qr-block .cap {
       font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.5px;
       color: var(--muted);
@@ -867,7 +881,8 @@
 </div>
 
 <div class="deck-progress"><div class="deck-progress-fill"></div></div>
-<div class="deck-hint">← → nebo mezerník pro další · F = celá obrazovka</div>
+<div class="deck-timer" id="timer" title="T = skrýt/zobrazit · R = restart">15:00</div>
+<div class="deck-hint">← → nebo mezerník pro další · F = celá obrazovka · T = časovač</div>
 <div class="deck-ui">
   <div class="deck-dots"></div>
   <div class="deck-counter">1 / 5</div>
@@ -926,6 +941,8 @@
       if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
       else document.exitFullscreen?.();
     }
+    else if (e.key === 't' || e.key === 'T') { timerEl.classList.toggle('hidden'); }
+    else if (e.key === 'r' || e.key === 'R') { timerStart = Date.now(); tickTimer(); }
   });
 
   document.querySelector('.deck').addEventListener('click', (e) => {
@@ -934,6 +951,22 @@
   });
 
   window.addEventListener('resize', () => fit(slides[i]));
+
+  // presenter timer: odpočet od délky talku, startuje při načtení (refresh = restart)
+  const TALK_MINUTES = 15;
+  const timerEl = document.getElementById('timer');
+  let timerStart = Date.now();
+  function tickTimer() {
+    const remain = TALK_MINUTES * 60 - (Date.now() - timerStart) / 1000;
+    const over = remain < 0;
+    const a = Math.abs(remain);
+    const m = Math.floor(a / 60), s = Math.floor(a % 60);
+    timerEl.textContent = (over ? '+' : '') + m + ':' + String(s).padStart(2, '0');
+    timerEl.classList.toggle('danger', over || remain <= 60);
+    timerEl.classList.toggle('warn', !over && remain > 60 && remain <= 5 * 60);
+  }
+  setInterval(tickTimer, 250);
+  tickTimer();
 
   const start = parseInt(location.hash.slice(1), 10) - 1;
   const begin = () => { show(Number.isNaN(start) ? 0 : start); slides.forEach(fit); };

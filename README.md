@@ -1,28 +1,32 @@
 # presentations
 
-Prezentace Václava Šlajse. Každý talk má vlastní datovaný podadresář
-ve formátu `RRRR-MM-DD-nazev`, publikovaný přes GitHub Pages.
+Talks by Václav Šlajs. Each talk lives in its own date-stamped subdirectory
+in the `YYYY-MM-DD-name` format, published via GitHub Pages.
 
-## Talky
+Live at **https://talks.slajs.eu/**
 
-| Datum | Talk | Web |
-|-------|------|-----|
-| 2026-06-15 | AI aplikace jako disciplína IT | [AI That Works Brno #9](https://aithatworks.cz/events/brno-meetup-9) |
+## Talks
 
-## Struktura
+| Date | Talk | Event |
+|------|------|-------|
+| 2026-06-15 | AI apps as an IT discipline | [AI That Works Brno #9](https://aithatworks.cz/events/brno-meetup-9) |
+
+## Structure
 
 ```
-RRRR-MM-DD-nazev/
-  index.html     # samotný deck (publikuje se)
-  *.jpeg, …      # obrázky decku
-  notes/         # řečnické poznámky a zdroje — NEpublikuje se (.gitignore)
+shared/            # shared assets reused across talks (e.g. me.jpeg)
+YYYY-MM-DD-name/
+  index.html       # the deck itself (published)
+  notes/           # speaker notes & sources — NOT published (.gitignore)
 ```
 
-## Publikace
+Decks reference shared assets via `../shared/...`; the landing page uses `shared/...`.
 
-Web běží na GitHub Pages z větve `main`. Deck konkrétního talku je na
-`https://velkyvenik.github.io/presentations/RRRR-MM-DD-nazev/`.
+## Publishing
 
-## Ovládání decku
+The site runs on GitHub Pages from the `main` branch. A given talk's deck is at
+`https://talks.slajs.eu/YYYY-MM-DD-name/`.
 
-Šipky / mezerník / klik = další slajd · `F` = celá obrazovka.
+## Deck controls
+
+Arrow keys / spacebar / click = next slide · `F` = fullscreen.

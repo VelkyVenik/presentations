@@ -920,23 +920,21 @@
   function fit(slide) {
     const stage = slide.querySelector('.stage');
     if (!stage) return;
-    // reset to natural size before measuring
+
+    // mobil: fit přesně na šířku displeje; šířku bereme z inline stylu (vždy známá,
+    // nezávisí na layoutu/fontech) → spolehlivé. Slajdy se scrollují svisle.
+    if (mqMobile.matches) {
+      const knownW = parseFloat(stage.style.width) || stage.offsetWidth;
+      if (knownW) stage.style.zoom = window.innerWidth / knownW;
+      return;
+    }
+
+    // desktop/plátno: fit na šířku i výšku; zoom = ostré písmo (žádné upscaling rozmazání)
     stage.style.zoom = '1';
     const w = stage.offsetWidth, h = stage.offsetHeight;
     if (!w || !h) return;
-    if (mqMobile.matches) {
-      // mobil: fit na šířku, slajdy se scrollují svisle
-      stage.style.zoom = (window.innerWidth * 0.96) / w;
-      return;
-    }
     const margin = 0.94;
-    const scale = Math.min(
-      (window.innerWidth * margin) / w,
-      (window.innerHeight * margin) / h,
-      1.7
-    );
-    // zoom re-renders text at target size → stays crisp (no bitmap upscaling)
-    stage.style.zoom = scale;
+    stage.style.zoom = Math.min((window.innerWidth * margin) / w, (window.innerHeight * margin) / h, 1.7);
   }
 
   function show(n) {
@@ -973,6 +971,8 @@
   });
 
   window.addEventListener('resize', () => { mqMobile.matches ? slides.forEach(fit) : fit(slides[i]); });
+  window.addEventListener('load', () => slides.forEach(fit));
+  window.addEventListener('orientationchange', () => setTimeout(() => slides.forEach(fit), 250));
 
   // presenter timer: odpočet od délky talku, startuje při načtení (refresh = restart)
   const TALK_MINUTES = 15;

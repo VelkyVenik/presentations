@@ -414,7 +414,7 @@
     .wrap { max-width: 820px; text-align: center; }
     .eyebrow {
       font-family: 'JetBrains Mono', monospace; font-size: 19px; letter-spacing: 3px;
-      text-transform: uppercase; color: var(--amber); margin-bottom: 20px;
+      text-transform: uppercase; color: var(--amber); margin: 46px 0 50px;
     }
     h1 {
       font-family: 'Space Grotesk', sans-serif; font-size: 34px; font-weight: 700;
@@ -423,30 +423,35 @@
     h1 .hl { background: linear-gradient(120deg, transparent 60%, #ffe08a 60%); padding: 0 4px; }
     .lede { font-size: 17px; color: var(--muted); line-height: 1.55; max-width: 600px; margin: 0 auto 48px; }
 
-    .contacts { display: flex; justify-content: center; gap: 18px; flex-wrap: wrap; }
-    .contact {
-      display: inline-flex; align-items: center; gap: 12px; text-decoration: none; color: var(--ink);
-      background: var(--card); border: 1.5px solid var(--paper-line); border-radius: 12px;
-      padding: 16px 24px; box-shadow: 4px 5px 0 rgba(20,17,15,0.06);
-      transition: transform 0.15s, box-shadow 0.15s;
+    /* identita — bez boxu, avatar + jméno */
+    .me { display: inline-flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+    .me .avatar {
+      width: 58px; height: 58px; border-radius: 50%; object-fit: cover;
+      border: 2px solid var(--paper-line); display: block;
+      box-shadow: 3px 4px 0 rgba(20,17,15,0.06);
     }
-    .contact:hover { transform: translate(-1px, -1px); box-shadow: 5px 6px 0 rgba(20,17,15,0.10); }
-    .contact .ico { width: 34px; height: 34px; flex: none; }
-    .contact .lbl { text-align: left; }
-    .contact .lbl b { font-family: 'Space Grotesk', sans-serif; font-size: 15px; display: block; }
-    .contact .lbl span { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); }
+    .me .who { text-align: left; line-height: 1.2; }
+    .me .who b { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 21px; display: block; }
+    .me .who span { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--muted); }
 
-    .sign { margin-top: 40px; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 18px; }
-    .sign span { font-family: 'JetBrains Mono', monospace; font-weight: 400; font-size: 13px; color: var(--muted); }
+    /* kontakty — tiché inline odkazy, žádné butony */
+    .links { display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; }
+    .links a {
+      display: inline-flex; align-items: center; gap: 9px; text-decoration: none;
+      color: var(--ink); font-family: 'JetBrains Mono', monospace; font-size: 14px;
+      border-bottom: 1.5px solid transparent; padding-bottom: 2px; transition: border-color 0.15s;
+    }
+    .links a:hover { border-bottom-color: var(--amber); }
+    .links .ico { width: 18px; height: 18px; flex: none; }
 
     .qr-block {
-      display: inline-flex; flex-direction: column; align-items: center; gap: 10px;
-      margin-bottom: 38px;
+      display: inline-flex; flex-direction: column; align-items: center; gap: 9px;
+      margin-top: 22px;
       background: var(--card); border: 1.5px solid var(--paper-line);
-      border-radius: 16px; padding: 18px 18px 14px;
+      border-radius: 12px; padding: 16px 16px 12px;
       box-shadow: 4px 5px 0 rgba(20,17,15,0.06);
     }
-    .qr-block img { width: 128px; height: 128px; display: block; border-radius: 6px; background: #fff; }
+    .qr-block img { width: 120px; height: 120px; display: block; border-radius: 6px; background: #fff; }
     .qr-block .cap {
       font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.5px;
       color: var(--muted);
@@ -863,29 +868,33 @@
   <section class="slide" id="s5">
     <div class="stage" style="width:820px">
       <div class="wrap">
-        <div class="eyebrow">Děkuji za pozornost</div>
         <h1>Technologie už tu je.<br>Teď je na čase posouvat <span class="hl">mindset</span>.</h1>
+        <div class="eyebrow">Děkuji za pozornost</div>
+
+        <div class="me">
+          <img class="avatar" src="../shared/me.jpeg" alt="Václav Šlajs">
+          <span class="who"><b>Václav Šlajs</b><span>YSoft</span></span>
+        </div>
+
+        <div class="links">
+          <a href="mailto:vaclav.slajs@ysoft.com">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#c2410c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="M3 6l9 7 9-7"/>
+            </svg>
+            vaclav.slajs@ysoft.com
+          </a>
+          <a href="https://www.linkedin.com/in/vaclav-slajs/" target="_blank" rel="noopener">
+            <svg class="ico" viewBox="0 0 24 24" fill="#2563eb">
+              <path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9.5h4V21H3zM9 9.5h3.8v1.57h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.75V21h-4v-5.3c0-1.26-.02-2.9-1.77-2.9-1.77 0-2.04 1.38-2.04 2.8V21H9z"/>
+            </svg>
+            /in/vaclav-slajs
+          </a>
+        </div>
+
         <div class="qr-block">
           <img src="https://api.qrserver.com/v1/create-qr-code/?size=400x400&margin=0&data=https%3A%2F%2Ftalks.slajs.eu%2F2026-06-15-ai-that-works%2F" alt="QR kód na slajdy: talks.slajs.eu/2026-06-15-ai-that-works/">
           <span class="cap">slajdy online</span>
         </div>
-
-        <div class="contacts">
-          <a class="contact" href="mailto:vaclav.slajs@ysoft.com">
-            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#c2410c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="M3 6l9 7 9-7"/>
-            </svg>
-            <span class="lbl"><b>E-mail</b><span>vaclav.slajs@ysoft.com</span></span>
-          </a>
-          <a class="contact" href="https://www.linkedin.com/in/vaclav-slajs/" target="_blank" rel="noopener">
-            <svg class="ico" viewBox="0 0 24 24" fill="#2563eb">
-              <path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9.5h4V21H3zM9 9.5h3.8v1.57h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.75V21h-4v-5.3c0-1.26-.02-2.9-1.77-2.9-1.77 0-2.04 1.38-2.04 2.8V21H9z"/>
-            </svg>
-            <span class="lbl"><b>LinkedIn</b><span>/in/vaclav-slajs</span></span>
-          </a>
-        </div>
-
-        <div class="sign">Václav Šlajs <span>· YSoft · Brno</span></div>
       </div>
     </div>
   </section>

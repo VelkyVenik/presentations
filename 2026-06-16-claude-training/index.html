@@ -92,7 +92,8 @@
   .card .ct { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--amber); margin-bottom: 10px; }
   .card h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 22px; margin-bottom: 9px; letter-spacing: -0.01em; }
   .card p { font-size: 16px; color: var(--muted); line-height: 1.5; }
-  .card p + p { margin-top: 8px; }
+  .cards.three .card h3 { font-size: 19px; }
+  .cards.three .card p { font-size: 15px; }
 
   /* callout note */
   .note {
@@ -113,16 +114,27 @@
   .title-slide .meta b { font-family: 'Space Grotesk', sans-serif; font-weight: 600; color: var(--ink); letter-spacing: 0; }
 
   /* ---------- DIVIDER slide ---------- */
-  .divider .stage { width: 940px; }
-  .divider .panel {
-    background: var(--ink); color: var(--paper); border-radius: 14px; padding: 64px 64px;
-    box-shadow: 7px 9px 0 rgba(20,17,15,0.14);
-    display: grid; grid-template-columns: auto 1fr; gap: 44px; align-items: center;
-  }
-  .divider .pnum { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 130px; line-height: 0.8; color: #ffe08a; }
-  .divider .ptitle { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 52px; line-height: 1.04; letter-spacing: -0.02em; }
-  .divider .pmeta { margin-top: 18px; font-family: 'JetBrains Mono', monospace; font-size: 15px; letter-spacing: 1px; color: #cbc3b4; display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
-  .divider .pmeta .chip { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); border-radius: 20px; padding: 4px 13px; color: var(--paper); }
+  .divider .stage { width: 880px; text-align: center; }
+  .divider .dkicker { font-family: 'JetBrains Mono', monospace; font-size: 15px; letter-spacing: 5px; text-transform: uppercase; color: var(--amber); margin-bottom: 18px; }
+  .divider .dnum { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 104px; line-height: 0.9; letter-spacing: -0.04em; color: var(--amber); }
+  .divider .dtitle { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 62px; line-height: 1.05; letter-spacing: -0.03em; margin-top: 8px; }
+  .divider .dmeta { margin-top: 28px; display: inline-flex; align-items: center; gap: 14px; font-family: 'JetBrains Mono', monospace; font-size: 15px; letter-spacing: 1px; color: var(--muted); }
+  .divider .dmeta .who { color: var(--amber); background: var(--card); border: 1.5px solid var(--amber-soft); border-radius: 20px; padding: 5px 14px; }
+
+  /* ---------- PRICING slide ---------- */
+  .pricing .cols { margin-top: 32px; display: grid; grid-template-columns: 1fr 1fr; gap: 22px; align-items: start; }
+  .pcol { background: var(--card); border: 1.5px solid var(--paper-line); border-radius: 12px; padding: 24px 28px; box-shadow: 4px 5px 0 rgba(20,17,15,0.06); }
+  .pcol.hl { border: 2px solid var(--amber); }
+  .pcol .pname { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 23px; letter-spacing: -0.01em; }
+  .pcol .psub { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 1px; color: var(--muted); margin-top: 5px; }
+  .tier { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; padding: 16px 0 14px; border-top: 1.5px solid var(--paper-line); margin-top: 14px; }
+  .tier:first-of-type { }
+  .tier .tname { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 18px; }
+  .tier .tnote { font-size: 13.5px; color: var(--muted); margin-top: 3px; }
+  .tier .tr { text-align: right; white-space: nowrap; }
+  .tier .tprice { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 27px; color: var(--amber); line-height: 1; }
+  .tier .tunit { font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: var(--muted); margin-top: 4px; }
+  .pcol .pfoot { font-size: 13.5px; color: var(--muted); margin-top: 14px; line-height: 1.45; }
 
   /* ---------- DEMO slide ---------- */
   .demo .tag-demo { display: inline-flex; align-items: center; gap: 8px; background: var(--amber); color: var(--paper); font-family: 'JetBrains Mono', monospace; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; padding: 6px 14px; border-radius: 20px; margin-bottom: 20px; }
@@ -141,12 +153,16 @@
 
   /* ---------- OUTRO slide ---------- */
   .outro .stage { text-align: center; }
-  .outro h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 46px; letter-spacing: -0.02em; margin-bottom: 16px; }
-  .outro .lead { margin: 0 auto 36px; }
-  .outro .channel { display: inline-flex; align-items: center; gap: 16px; background: var(--ink); color: var(--paper); border-radius: 12px; padding: 22px 34px; box-shadow: 5px 7px 0 rgba(20,17,15,0.12); }
-  .outro .channel .yt { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 26px; color: #ffe08a; }
-  .outro .channel .sub { text-align: left; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #cbc3b4; }
-  .outro .channel .sub b { display: block; font-size: 18px; color: var(--paper); font-family: 'Space Grotesk', sans-serif; }
+  .outro .eyebrow { margin-bottom: 16px; }
+  .outro h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 46px; letter-spacing: -0.02em; margin-bottom: 30px; }
+  .outro-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; text-align: left; }
+  .ocard { background: var(--card); border: 1.5px solid var(--paper-line); border-radius: 12px; padding: 26px 28px; box-shadow: 4px 5px 0 rgba(20,17,15,0.06); display: flex; flex-direction: column; }
+  .ocard .ct { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--amber); margin-bottom: 12px; }
+  .ocard .yt { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 30px; margin-bottom: 10px; }
+  .ocard .yt span { color: var(--amber); }
+  .ocard p { font-size: 16px; color: var(--muted); line-height: 1.5; }
+  .ocard .qr { width: 132px; height: 132px; border-radius: 8px; background: #fff; padding: 6px; border: 1.5px solid var(--paper-line); margin: 14px 0 10px; align-self: center; }
+  .ocard a { color: var(--amber); font-family: 'JetBrains Mono', monospace; font-size: 13px; text-decoration: none; align-self: center; }
 
   /* ---------- THANKS slide ---------- */
   .thanks .stage { text-align: center; }
@@ -187,9 +203,9 @@
       <div class="slide-head"><span>Agenda</span><span class="who">Veník &amp; Víťa</span></div>
       <h2 class="title">What we'll cover</h2>
       <div class="cards three">
-        <div class="card"><div class="ct">Part 1 · 15 min</div><h3>What is Claude</h3><p>What it is, how it differs, how to get it. <em>Veník</em></p></div>
-        <div class="card"><div class="ct">Part 2 · 15 min</div><h3>Claude Chat Desktop</h3><p>The app, projects, memory, modes. <em>Víťa</em></p></div>
-        <div class="card"><div class="ct">Part 3 · 30–40 min</div><h3>Real use cases</h3><p>Live demos across daily work. <em>Veník &amp; Víťa</em></p></div>
+        <div class="card"><div class="ct">Part 1 · 15 min</div><h3>What is Claude</h3><p>What it is, how it differs, how to get it. — Veník</p></div>
+        <div class="card"><div class="ct">Part 2 · 15 min</div><h3>Claude Chat Desktop</h3><p>The app, projects, memory, modes. — Víťa</p></div>
+        <div class="card"><div class="ct">Part 3 · 30–40 min</div><h3>Real use cases</h3><p>Live demos across daily work. — Veník &amp; Víťa</p></div>
       </div>
       <div class="note"><b>Short Q&amp;A after each part</b> — and a final one at the end. Drop questions in the chat anytime; we'll pick them up.</div>
     </div>
@@ -198,13 +214,9 @@
   <!-- ===== 3 · DIVIDER P1 ===== -->
   <section class="slide divider">
     <div class="stage">
-      <div class="panel">
-        <div class="pnum">01</div>
-        <div>
-          <div class="ptitle">What is Claude</div>
-          <div class="pmeta"><span class="chip">Led by Veník</span><span>15 min</span></div>
-        </div>
-      </div>
+      <div class="dnum">01</div>
+      <div class="dtitle">What is Claude</div>
+      <div class="dmeta"><span class="who">Led by Veník</span><span>15 min</span></div>
     </div>
   </section>
 
@@ -232,47 +244,77 @@
         <div class="card"><div class="ct">Choose Copilot if…</div><h3>You live in M365</h3><p>You need meetings, Teams, and company-wide Microsoft 365 integration baked in.</p></div>
         <div class="card"><div class="ct">Choose Claude if…</div><h3>You need a work assistant</h3><p>You want a capable AI partner for a wide variety of work tasks, files and apps.</p></div>
       </div>
-      <div class="note">Today is about <b>Claude</b> — where it shines for everyday work.</div>
+      <div class="note"><b>Copilot</b> is the standard solution for everyone. <b>Claude</b> is for when you need to do more advanced things.</div>
     </div>
   </section>
 
-  <!-- ===== 6 · GETTING CLAUDE ===== -->
-  <section class="slide">
+  <!-- ===== 6 · PRICING ===== -->
+  <section class="slide pricing">
     <div class="stage">
       <div class="slide-head"><span>Part 1 · What is Claude</span><span class="who">Veník</span></div>
-      <h2 class="title">Getting Claude</h2>
-      <div class="cards">
-        <div class="card"><div class="ct">License</div><h3>You need a license</h3><p>Claude is licensed — paid through the team budget, not a free-for-all.</p></div>
-        <div class="card"><div class="ct">How to get it</div><h3>Via your team</h3><p>Request access through your team / budget owner.</p></div>
-        <div class="card"><div class="ct">Personal vs Company</div><h3>Keep them separate</h3><p>Use the company account for work; keep personal use on a personal account.</p></div>
-        <div class="card"><div class="ct">Migration</div><h3>Moving data over?</h3><p>Not really — there's no clean import from other tools. Start fresh.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== 7 · Q&A P1 ===== -->
-  <section class="slide qna">
-    <div class="stage">
-      <div class="eyebrow">Part 1 · What is Claude</div>
-      <h2><span class="hl">Q&amp;A</span></h2>
-      <div class="qhint">Questions so far? Drop them in the chat — we'll pick a few.</div>
-    </div>
-  </section>
-
-  <!-- ===== 8 · DIVIDER P2 ===== -->
-  <section class="slide divider">
-    <div class="stage">
-      <div class="panel">
-        <div class="pnum">02</div>
-        <div>
-          <div class="ptitle">Claude Chat Desktop</div>
-          <div class="pmeta"><span class="chip">Led by Víťa</span><span>15 min</span></div>
+      <h2 class="title">Pricing</h2>
+      <div class="lead">Claude Team has two tiers; Microsoft's Copilot for Business is a single tier.</div>
+      <div class="cols">
+        <div class="pcol hl">
+          <div class="pname">Claude Team</div>
+          <div class="psub">Two tiers · mix &amp; match · 5–150 members</div>
+          <div class="tier">
+            <div><div class="tname">Standard</div><div class="tnote">All Claude features</div></div>
+            <div class="tr"><div class="tprice">$20</div><div class="tunit">/ seat / mo · annual ($25 monthly)</div></div>
+          </div>
+          <div class="tier">
+            <div><div class="tname">Premium</div><div class="tnote">5× the usage of Standard</div></div>
+            <div class="tr"><div class="tprice">$100</div><div class="tunit">/ seat / mo · annual ($125 monthly)</div></div>
+          </div>
+        </div>
+        <div class="pcol">
+          <div class="pname">Microsoft 365 Copilot for Business</div>
+          <div class="psub">One tier</div>
+          <div class="tier">
+            <div><div class="tname">Copilot</div><div class="tnote">Add-on to Microsoft 365</div></div>
+            <div class="tr"><div class="tprice">$21</div><div class="tunit">/ user / mo · annual</div></div>
+          </div>
+          <div class="pfoot">Requires a qualifying Microsoft 365 license on top.</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ===== 9 · THE APP ===== -->
+  <!-- ===== 7 · GETTING CLAUDE ===== -->
+  <section class="slide">
+    <div class="stage">
+      <div class="slide-head"><span>Part 1 · What is Claude</span><span class="who">Veník</span></div>
+      <h2 class="title">Getting Claude</h2>
+      <div class="cards three">
+        <div class="card"><div class="ct">License</div><h3>You need a license</h3><p>Claude is licensed — paid through the team budget, not a free-for-all.</p></div>
+        <div class="card"><div class="ct">Check what you have</div><h3>My YSoft</h3><p>See your own and your team's licenses at <b>my.ysoft.com/licenses</b>.</p></div>
+        <div class="card"><div class="ct">How to get it</div><h3>Team → budget owner → IT</h3><p>Agree in your team how you'll use it, confirm with the budget owner, then raise an IT ticket. <b>Please request changes in bulk.</b></p></div>
+        <div class="card"><div class="ct">Personal vs Company</div><h3>Use the company account</h3><p>Use the company account even for personal things — better that way than the other way around.</p></div>
+        <div class="card"><div class="ct">Migration</div><h3>Moving data over?</h3><p>Not really — there's no clean import from other tools. Start fresh.</p></div>
+      </div>
+      <div class="note"><b>Can I have more licenses?</b> Yes — you can add seats and mix Standard / Premium. Coordinate it through the team.</div>
+    </div>
+  </section>
+
+  <!-- ===== 8 · Q&A P1 ===== -->
+  <section class="slide qna">
+    <div class="stage">
+      <div class="eyebrow">Part 1 · What is Claude</div>
+      <h2><span class="hl">Q&amp;A</span></h2>
+      <div class="qhint">Questions so far?</div>
+    </div>
+  </section>
+
+  <!-- ===== 9 · DIVIDER P2 ===== -->
+  <section class="slide divider">
+    <div class="stage">
+      <div class="dnum">02</div>
+      <div class="dtitle">Claude Chat Desktop</div>
+      <div class="dmeta"><span class="who">Led by Víťa</span><span>15 min</span></div>
+    </div>
+  </section>
+
+  <!-- ===== 10 · THE APP ===== -->
   <section class="slide">
     <div class="stage">
       <div class="slide-head"><span>Part 2 · Claude Chat Desktop</span><span class="who">Víťa</span></div>
@@ -285,7 +327,7 @@
     </div>
   </section>
 
-  <!-- ===== 10 · CUSTOM INSTRUCTIONS + MODELS ===== -->
+  <!-- ===== 11 · CUSTOM INSTRUCTIONS + MODELS ===== -->
   <section class="slide">
     <div class="stage">
       <div class="slide-head"><span>Part 2 · Claude Chat Desktop</span><span class="who">Víťa</span></div>
@@ -297,7 +339,7 @@
     </div>
   </section>
 
-  <!-- ===== 11 · PROJECTS + MEMORY ===== -->
+  <!-- ===== 12 · PROJECTS + MEMORY ===== -->
   <section class="slide">
     <div class="stage">
       <div class="slide-head"><span>Part 2 · Claude Chat Desktop</span><span class="who">Víťa</span></div>
@@ -309,7 +351,7 @@
     </div>
   </section>
 
-  <!-- ===== 12 · MODES ===== -->
+  <!-- ===== 13 · MODES ===== -->
   <section class="slide">
     <div class="stage">
       <div class="slide-head"><span>Part 2 · Claude Chat Desktop</span><span class="who">Víťa</span></div>
@@ -323,7 +365,7 @@
     </div>
   </section>
 
-  <!-- ===== 13 · Q&A P2 ===== -->
+  <!-- ===== 14 · Q&A P2 ===== -->
   <section class="slide qna">
     <div class="stage">
       <div class="eyebrow">Part 2 · Claude Chat Desktop</div>
@@ -332,20 +374,16 @@
     </div>
   </section>
 
-  <!-- ===== 14 · DIVIDER P3 ===== -->
+  <!-- ===== 15 · DIVIDER P3 ===== -->
   <section class="slide divider">
     <div class="stage">
-      <div class="panel">
-        <div class="pnum">03</div>
-        <div>
-          <div class="ptitle">Real use cases</div>
-          <div class="pmeta"><span class="chip">Veník &amp; Víťa</span><span>30–40 min</span></div>
-        </div>
-      </div>
+      <div class="dnum">03</div>
+      <div class="dtitle">Real use cases</div>
+      <div class="dmeta"><span class="who">Veník &amp; Víťa</span><span>30–40 min</span></div>
     </div>
   </section>
 
-  <!-- ===== 15 · DEMO Outlook ===== -->
+  <!-- ===== 16 · DEMO Outlook ===== -->
   <section class="slide demo">
     <div class="stage">
       <div class="slide-head"><span>Part 3 · Real use cases</span><span class="who">Veník</span></div>
@@ -359,23 +397,13 @@
     </div>
   </section>
 
-  <!-- ===== 16 · DEMO Excel ===== -->
+  <!-- ===== 17 · DEMO Excel ===== -->
   <section class="slide demo">
     <div class="stage">
       <div class="slide-head"><span>Part 3 · Real use cases</span><span class="who">Víťa</span></div>
       <div class="tag-demo">Live demo</div>
       <h2 class="title">Claude in Excel</h2>
       <div class="lead">Working with spreadsheets — right inside Excel.</div>
-    </div>
-  </section>
-
-  <!-- ===== 17 · DEMO Voice ===== -->
-  <section class="slide demo">
-    <div class="stage">
-      <div class="slide-head"><span>Part 3 · Real use cases</span><span class="who">Veník</span></div>
-      <div class="tag-demo">Live demo</div>
-      <h2 class="title">Voice mode</h2>
-      <div class="lead">Talking to Claude instead of typing.</div>
     </div>
   </section>
 
@@ -411,12 +439,20 @@
   <!-- ===== 21 · OUTRO ===== -->
   <section class="slide outro">
     <div class="stage">
-      <div class="eyebrow">Outro · Veník</div>
+      <div class="eyebrow">Outro · Víťa</div>
       <h2>Keep learning</h2>
-      <div class="lead">Want more tips and short how-tos? We've got a channel for that.</div>
-      <div class="channel">
-        <span class="yt">▶</span>
-        <span class="sub">Watch the channel<b>AI Shortcut</b></span>
+      <div class="outro-cards">
+        <div class="ocard">
+          <div class="ct">Watch the channel</div>
+          <div class="yt"><span>▶</span> AI Shortcut</div>
+          <p>Short tips and how-tos — follow it for more.</p>
+        </div>
+        <div class="ocard">
+          <div class="ct">Your feedback</div>
+          <p>Want another session — and on what topic? Tell us in 2 minutes.</p>
+          <img class="qr" src="https://api.qrserver.com/v1/create-qr-code/?size=400x400&margin=0&data=https%3A%2F%2Fforms.microsoft.com%2Fe%2FwRPyj47hgz" alt="Feedback survey QR">
+          <a href="https://forms.microsoft.com/e/wRPyj47hgz" target="_blank" rel="noopener">forms.microsoft.com/e/wRPyj47hgz</a>
+        </div>
       </div>
     </div>
   </section>

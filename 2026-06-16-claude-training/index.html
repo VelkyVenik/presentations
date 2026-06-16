@@ -103,6 +103,10 @@
   }
   .note b { font-family: 'Space Grotesk', sans-serif; }
 
+  /* chips row */
+  .chips { margin-top: 22px; display: flex; flex-wrap: wrap; gap: 12px; }
+  .chips span { font-family: 'JetBrains Mono', monospace; font-size: 15px; background: var(--card); border: 1.5px solid var(--paper-line); border-radius: 8px; padding: 9px 16px; }
+
   /* ---------- TITLE slide ---------- */
   .title-slide .stage { text-align: center; }
   .eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 14px; letter-spacing: 4px; text-transform: uppercase; color: var(--amber); margin-bottom: 22px; }
@@ -236,11 +240,22 @@
     </div>
   </section>
 
-  <!-- ===== 5 · CLAUDE vs CHATGPT vs COPILOT ===== -->
+  <!-- ===== 5 · CLAUDE vs CHATGPT ===== -->
   <section class="slide">
     <div class="stage">
       <div class="slide-head"><span>Part 1 · What is Claude</span><span class="who">Veník</span></div>
-      <h2 class="title">Claude vs ChatGPT vs Copilot</h2>
+      <h2 class="title">Claude vs ChatGPT</h2>
+      <div class="lead">Honestly — they're equivalent. It mostly comes down to habit.</div>
+      <div class="note">At YSoft, <b>Claude is our standard AI assistant</b> — so IT maintains the connectors to the tools you already use:</div>
+      <div class="chips"><span>Microsoft Office</span><span>Atlassian</span><span>Miro</span><span>…and more</span></div>
+    </div>
+  </section>
+
+  <!-- ===== 6 · CLAUDE vs COPILOT ===== -->
+  <section class="slide">
+    <div class="stage">
+      <div class="slide-head"><span>Part 1 · What is Claude</span><span class="who">Veník</span></div>
+      <h2 class="title">Claude vs Copilot</h2>
       <div class="lead">Different tools for different jobs — not better or worse. Choose your way:</div>
       <div class="cards">
         <div class="card"><div class="ct">Choose Copilot if…</div><h3>You live in M365</h3><p>You need meetings, Teams, and company-wide Microsoft 365 integration baked in.</p></div>
@@ -476,7 +491,7 @@
 <div class="deck-hint">← → or space to navigate · F = fullscreen · T = timer</div>
 <div class="deck-ui">
   <div class="deck-dots"></div>
-  <div class="deck-counter">1 / 22</div>
+  <div class="deck-counter">1 / 23</div>
 </div>
 
 <script>

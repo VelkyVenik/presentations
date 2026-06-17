@@ -10,6 +10,7 @@ Live at **https://talks.slajs.eu/**
 | Date | Talk | Event |
 |------|------|-------|
 | 2026-06-18 | IT as a business partner | Company talk |
+| 2026-06-16 | Getting started with Claude | YSoft training |
 | 2026-06-15 | AI apps as an IT discipline | [AI That Works Brno #9](https://aithatworks.cz/events/brno-meetup-9) |
 
 ## Structure

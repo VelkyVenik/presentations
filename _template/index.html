@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NÁZEV TALKU · Václav Šlajs</title>
+<!--
+  ŠABLONA DECKU — zkopíruj celou složku _template/ do YYYY-MM-DD-nazev/ a uprav.
+  • Stack (CSS+JS níže) neměň, jen obsah slajdů mezi <div class="deck"> … </div>.
+  • Každý typ slajdu je níže jako okomentovaný příklad — duplikuj a uprav.
+  • Po úpravách: aktualizuj .deck-counter (1 / N) a TALK_MINUTES.
+  • Standardizovaný je ÚVODNÍ (title) a ZÁVĚREČNÝ (thanks) slajd — drž jejich strukturu.
+-->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #14110f; --paper: #f4efe6; --paper-line: #e6ddcd; --card: #fffdf8;
+    --muted: #6b6256; --amber: #c2410c; --amber-soft: #f0d9c0;
+    --green-bg: #d6f0e6; --green-fg: #04694b;
+    --blue-bg: #dbeafe; --blue-fg: #1e40af;
+    --red-bg: #f9d9d4; --red-fg: #b91c1c;
+    --green: #059669; --blue: #2563eb; --purple: #7c3aed;
+  }
+  html, body { height: 100%; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--paper);
+    background-image: radial-gradient(circle at 1px 1px, rgba(20,17,15,0.04) 1px, transparent 0);
+    background-size: 22px 22px;
+    color: var(--ink);
+    overflow: hidden;
+  }
+
+  /* ---------- deck framework ---------- */
+  .deck { position: fixed; inset: 0; }
+  .slide { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 30px; opacity: 0; pointer-events: none; transition: opacity 0.35s ease; }
+  .slide.active { opacity: 1; pointer-events: auto; }
+  .stage { width: 1040px; }
+
+  .deck-progress { position: fixed; top: 0; left: 0; right: 0; height: 4px; background: var(--paper-line); z-index: 60; }
+  .deck-progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--amber), #d97706); transition: width 0.35s ease; }
+  .deck-ui { position: fixed; right: 20px; bottom: 16px; display: flex; align-items: center; gap: 14px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); z-index: 50; user-select: none; }
+  .deck-dots { display: flex; gap: 6px; }
+  .deck-dots b { width: 7px; height: 7px; border-radius: 50%; background: var(--paper-line); display: block; cursor: pointer; transition: background 0.2s, transform 0.2s; }
+  .deck-dots b.on { background: var(--amber); transform: scale(1.3); }
+  .deck-counter { letter-spacing: 1px; }
+  .deck-hint { position: fixed; left: 50%; bottom: 16px; transform: translateX(-50%); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1.5px; color: var(--muted); opacity: 0.7; z-index: 50; user-select: none; transition: opacity 0.4s; }
+  .deck-hint.gone { opacity: 0; }
+  .deck-timer { position: fixed; top: 26px; right: 18px; z-index: 60; font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 500; letter-spacing: 1px; color: var(--muted); background: var(--card); border: 1.5px solid var(--paper-line); border-radius: 9px; padding: 8px 15px; box-shadow: 3px 4px 0 rgba(20,17,15,0.06); user-select: none; }
+  .deck-timer.warn { color: #9a3412; border-color: #e7b893; }
+  .deck-timer.danger { color: #b91c1c; border-color: #e6a3a3; font-weight: 700; }
+  .deck-timer.hidden { display: none; }
+
+  /* ---------- unified template ---------- */
+  .slide-head { display: flex; justify-content: space-between; align-items: center; font-family: 'JetBrains Mono', monospace; font-size: 14px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); border-bottom: 1.5px solid var(--paper-line); padding-bottom: 14px; margin-bottom: 32px; }
+  .slide-head .live { color: var(--amber); background: var(--card); border: 1.5px solid var(--amber-soft); border-radius: 20px; padding: 4px 13px; letter-spacing: 1px; white-space: nowrap; }
+
+  .title { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 44px; line-height: 1.08; letter-spacing: -0.02em; }
+  .title .hl { background: linear-gradient(120deg, transparent 60%, #ffe08a 60%); padding: 0 4px; }
+  .lead { font-size: 19px; color: var(--muted); line-height: 1.5; margin-top: 16px; max-width: 820px; }
+
+  .points { margin-top: 34px; display: flex; flex-direction: column; gap: 18px; }
+  .points li { list-style: none; position: relative; padding-left: 30px; font-size: 20.5px; line-height: 1.45; }
+  .points li::before { content: ""; position: absolute; left: 2px; top: 0.62em; width: 12px; height: 3px; border-radius: 2px; background: var(--amber); }
+  .points li b { font-family: 'Space Grotesk', sans-serif; font-weight: 600; }
+  .points li .sub { display: block; font-size: 16px; color: var(--muted); margin-top: 3px; }
+
+  .cards { margin-top: 34px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .cards.three { grid-template-columns: repeat(3, 1fr); }
+  .card { background: var(--card); border: 1.5px solid var(--paper-line); border-radius: 12px; padding: 24px 26px; box-shadow: 4px 5px 0 rgba(20,17,15,0.06); }
+  .card .ct { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--amber); margin-bottom: 10px; }
+  .card h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 22px; margin-bottom: 9px; letter-spacing: -0.01em; }
+  .card p { font-size: 16px; color: var(--muted); line-height: 1.5; }
+  .cards.three .card h3 { font-size: 20px; }
+  .cards.three .card p { font-size: 15px; }
+
+  .note { margin-top: 28px; background: var(--card); border: 1.5px solid var(--paper-line); border-left: 4px solid var(--amber); border-radius: 8px; padding: 16px 20px; font-size: 16px; color: var(--ink); line-height: 1.5; }
+  .note b { font-family: 'Space Grotesk', sans-serif; }
+
+  /* ---------- TITLE (standardizovaný úvod) ---------- */
+  .title-slide .stage { text-align: center; }
+  .eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 14px; letter-spacing: 4px; text-transform: uppercase; color: var(--amber); margin-bottom: 22px; }
+  .title-slide h1 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 78px; line-height: 1.02; letter-spacing: -0.03em; margin-bottom: 16px; }
+  .title-slide h1 .hl { background: linear-gradient(120deg, transparent 58%, #ffe08a 58%); padding: 0 8px; }
+  .title-slide .subtitle { font-size: 24px; color: var(--muted); margin-bottom: 44px; }
+  .title-slide .meta { display: inline-flex; align-items: center; gap: 14px; font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--muted); background: var(--card); border: 1.5px solid var(--paper-line); border-radius: 40px; padding: 12px 26px; box-shadow: 4px 5px 0 rgba(20,17,15,0.06); }
+  .title-slide .meta b { font-family: 'Space Grotesk', sans-serif; font-weight: 600; color: var(--ink); }
+  .title-slide .meta .avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 1.5px solid var(--paper-line); margin-right: 4px; }
+
+  /* ---------- DIVIDER (sekce) ---------- */
+  .divider .stage { width: 880px; text-align: center; }
+  .divider .dnum { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 104px; line-height: 0.9; letter-spacing: -0.04em; color: var(--amber); }
+  .divider .dtitle { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 62px; line-height: 1.05; letter-spacing: -0.03em; margin-top: 8px; }
+  .divider .dmeta { margin-top: 22px; font-family: 'JetBrains Mono', monospace; font-size: 15px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+
+  /* ---------- QUOTE ---------- */
+  .quote .stage { text-align: center; width: 960px; }
+  .quote .qmark { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 90px; color: var(--amber-soft); line-height: 0.5; height: 40px; }
+  .quote .qtext { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 44px; line-height: 1.2; letter-spacing: -0.02em; }
+  .quote .qcap { margin-top: 28px; font-family: 'JetBrains Mono', monospace; font-size: 15px; letter-spacing: 1px; color: var(--muted); }
+
+  /* ---------- STATEMENT (úderná teze) ---------- */
+  .statement .stage { text-align: center; width: 980px; }
+  .statement .stext { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 56px; line-height: 1.12; letter-spacing: -0.025em; }
+  .statement .stext .hl { background: linear-gradient(120deg, transparent 58%, #ffe08a 58%); padding: 0 8px; }
+  .statement .ssub { margin: 26px auto 0; font-size: 20px; color: var(--muted); line-height: 1.55; max-width: 760px; }
+
+  /* ---------- STAT (velké číslo) ---------- */
+  .stat .stage { text-align: center; }
+  .stat .snum { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 150px; line-height: 1; letter-spacing: -0.04em; color: var(--amber); }
+  .stat .stext { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 28px; margin-top: 10px; }
+  .stat .ssub { margin-top: 14px; font-size: 19px; color: var(--muted); }
+
+  /* ---------- FRAMEWORK (tabulka s chipy) ---------- */
+  .ptable { margin-top: 26px; width: 100%; border-collapse: collapse; }
+  .ptable th { text-align: left; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); padding: 0 14px 12px; border-bottom: 1.5px solid var(--paper-line); }
+  .ptable th.c, .ptable td.c { text-align: center; }
+  .ptable td { padding: 12px 14px; border-bottom: 1px solid var(--paper-line); font-size: 17px; }
+  .ptable td.proc { font-family: 'Space Grotesk', sans-serif; font-weight: 600; }
+  .ptable td.own { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--muted); }
+  .chip { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 12.5px; font-weight: 500; padding: 4px 12px; border-radius: 6px; }
+  .chip.it { background: var(--blue-bg); color: var(--blue-fg); }
+  .chip.good { background: var(--green-bg); color: var(--green-fg); }
+  .chip.ok { background: var(--blue-bg); color: var(--blue-fg); }
+  .chip.bad { background: var(--red-bg); color: var(--red-fg); }
+  .ptable-cap { margin-top: 10px; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.5px; color: var(--muted); }
+
+  /* ---------- Q&A ---------- */
+  .qna .stage { text-align: center; }
+  .qna h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 88px; letter-spacing: -0.03em; margin-bottom: 20px; }
+  .qna h2 .hl { background: linear-gradient(120deg, transparent 58%, #ffe08a 58%); padding: 0 8px; }
+  .qna .qhint { font-size: 18px; color: var(--muted); }
+
+  /* ---------- THANKS (standardizovaný závěr) ---------- */
+  .thanks .stage { text-align: center; }
+  .thanks .eyebrow { margin-bottom: 20px; }
+  .thanks h1 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 60px; letter-spacing: -0.03em; margin-bottom: 14px; }
+  .thanks h1 .hl { background: linear-gradient(120deg, transparent 58%, #ffe08a 58%); padding: 0 6px; }
+  .thanks .me { display: inline-flex; align-items: center; gap: 14px; margin-top: 6px; }
+  .thanks .me .avatar { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; border: 2px solid var(--paper-line); box-shadow: 3px 4px 0 rgba(20,17,15,0.06); }
+  .thanks .me .who { text-align: left; line-height: 1.25; }
+  .thanks .me .who b { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; display: block; }
+  .thanks .me .who span { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--muted); }
+  .thanks .contacts { display: flex; justify-content: center; gap: 26px; flex-wrap: wrap; margin-top: 26px; }
+  .thanks .contacts a { display: inline-flex; align-items: center; gap: 9px; text-decoration: none; color: var(--ink); font-family: 'JetBrains Mono', monospace; font-size: 15px; border-bottom: 1.5px solid transparent; padding-bottom: 2px; transition: border-color 0.15s; }
+  .thanks .contacts a:hover { border-bottom-color: var(--amber); }
+  .thanks .contacts .ico { width: 18px; height: 18px; flex: none; }
+  .thanks .qr-block { display: inline-flex; flex-direction: column; align-items: center; gap: 8px; margin-top: 26px; background: var(--card); border: 1.5px solid var(--paper-line); border-radius: 12px; padding: 14px 14px 10px; box-shadow: 4px 5px 0 rgba(20,17,15,0.06); }
+  .thanks .qr-block img { width: 116px; height: 116px; display: block; border-radius: 6px; background: #fff; }
+  .thanks .qr-block .cap { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.5px; color: var(--muted); }
+
+  /* ---------- mobile ---------- */
+  html.m, html.m body { height: auto; overflow-x: hidden; overflow-y: auto; }
+  html.m .deck { position: static; inset: auto; }
+  html.m .slide { position: static; inset: auto; opacity: 1; pointer-events: auto; display: flex; justify-content: center; align-items: flex-start; padding: 70px 16px; min-height: 0; border-bottom: 2px solid var(--paper-line); }
+  html.m .stage { transform: none !important; zoom: 1 !important; width: auto !important; max-width: 1040px; }
+  html.m .deck-progress, html.m .deck-ui, html.m .deck-hint, html.m .deck-timer { display: none !important; }
+</style>
+</head>
+<body>
+
+<div class="deck">
+
+  <!-- ===== ÚVODNÍ SLAJD (standardizovaný) ===== -->
+  <section class="slide title-slide">
+    <div class="stage">
+      <div class="eyebrow">DD. M. RRRR</div>
+      <h1>Název <span class="hl">talku</span></h1>
+      <div class="subtitle">Podtitul jednou větou</div>
+      <div class="meta"><img class="avatar" src="../shared/me.jpeg" alt="Václav Šlajs"><b>Václav Šlajs</b><span>· Head of IT, YSoft</span></div>
+    </div>
+  </section>
+
+  <!-- ===== CONTENT — bullets ===== -->
+  <section class="slide">
+    <div class="stage">
+      <div class="slide-head"><span>Sekce</span></div>
+      <h2 class="title">Nadpis slajdu</h2>
+      <ul class="points">
+        <li><b>Tučný úvod bodu</b><span class="sub">Doplňující popisek pod ním.</span></li>
+        <li><b>Druhý bod</b><span class="sub">Popisek.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===== CONTENT — karty (2 nebo 3; přidej .three pro 3 sloupce) + note ===== -->
+  <section class="slide">
+    <div class="stage">
+      <div class="slide-head"><span>Sekce</span></div>
+      <h2 class="title">Nadpis s kartami</h2>
+      <div class="cards">
+        <div class="card"><div class="ct">Štítek</div><h3>Nadpis karty</h3><p>Popis karty.</p></div>
+        <div class="card"><div class="ct">Štítek</div><h3>Nadpis karty</h3><p>Popis karty.</p></div>
+      </div>
+      <div class="note"><b>Poznámka:</b> volitelný callout pod obsahem.</div>
+    </div>
+  </section>
+
+  <!-- ===== DIVIDER (předěl sekce) ===== -->
+  <section class="slide divider">
+    <div class="stage">
+      <div class="dnum">01</div>
+      <div class="dtitle">Název sekce</div>
+      <div class="dmeta">Podtitul sekce</div>
+    </div>
+  </section>
+
+  <!-- ===== STATEMENT (úderná teze) ===== -->
+  <section class="slide statement">
+    <div class="stage">
+      <div class="stext">Úderná věta s <span class="hl">zvýrazněním.</span></div>
+      <div class="ssub">Volitelný doplňující podtext.</div>
+    </div>
+  </section>
+
+  <!-- ===== STAT (velké číslo) ===== -->
+  <section class="slide stat">
+    <div class="stage">
+      <div class="snum">~40 %</div>
+      <div class="stext">Hlavní tvrzení k číslu.</div>
+      <div class="ssub">Doplňující kontext.</div>
+    </div>
+  </section>
+
+  <!-- ===== QUOTE (citace / hook) ===== -->
+  <section class="slide quote">
+    <div class="stage">
+      <div class="qmark">“</div>
+      <div class="qtext">Citace nebo provokativní otázka.</div>
+      <div class="qcap">Popisek pod citací</div>
+    </div>
+  </section>
+
+  <!-- ===== FRAMEWORK (tabulka s barevnými chipy: good/ok/bad) ===== -->
+  <section class="slide">
+    <div class="stage">
+      <div class="slide-head"><span>Sekce</span></div>
+      <h2 class="title">Nadpis tabulky</h2>
+      <table class="ptable">
+        <thead>
+          <tr><th>Sloupec</th><th>Sloupec</th><th class="c">Hodnota</th><th class="c">Cena</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="proc">Řádek A</td><td class="own">IT</td><td class="c"><span class="chip good">Good</span></td><td class="c"><span class="chip ok">Ok</span></td></tr>
+          <tr><td class="proc">Řádek B</td><td class="own">IT</td><td class="c"><span class="chip bad">Bad</span></td><td class="c"><span class="chip bad">Bad</span></td></tr>
+        </tbody>
+      </table>
+      <div class="ptable-cap">* Volitelný popisek pod tabulkou.</div>
+    </div>
+  </section>
+
+  <!-- ===== ŽIVÁ UKÁZKA / DEMO (tag vpravo v hlavičce) ===== -->
+  <section class="slide">
+    <div class="stage">
+      <div class="slide-head"><span>Sekce</span><span class="live">Živá ukázka</span></div>
+      <h2 class="title">Název ukázky</h2>
+      <div class="lead">Co ukazujeme jednou větou.</div>
+    </div>
+  </section>
+
+  <!-- ===== Q&A ===== -->
+  <section class="slide qna">
+    <div class="stage">
+      <div class="eyebrow">Sekce</div>
+      <h2><span class="hl">Otázky?</span></h2>
+      <div class="qhint">Volitelná výzva.</div>
+    </div>
+  </section>
+
+  <!-- ===== ZÁVĚREČNÝ SLAJD (standardizovaný: foto + kontakty + QR) ===== -->
+  <section class="slide thanks">
+    <div class="stage">
+      <div class="eyebrow">Děkuju za pozornost</div>
+      <h1>Díky<span class="hl">!</span></h1>
+      <div class="me"><img class="avatar" src="../shared/me.jpeg" alt="Václav Šlajs"><span class="who"><b>Václav Šlajs</b><span>Head of IT, YSoft</span></span></div>
+      <div class="contacts">
+        <a href="mailto:vaclav.slajs@ysoft.com">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#c2410c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="M3 6l9 7 9-7"/></svg>
+          vaclav.slajs@ysoft.com
+        </a>
+        <a href="https://www.linkedin.com/in/vaclav-slajs/" target="_blank" rel="noopener">
+          <svg class="ico" viewBox="0 0 24 24" fill="#2563eb"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9.5h4V21H3zM9 9.5h3.8v1.57h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.75V21h-4v-5.3c0-1.26-.02-2.9-1.77-2.9-1.77 0-2.04 1.38-2.04 2.8V21H9z"/></svg>
+          /in/vaclav-slajs
+        </a>
+      </div>
+      <!-- QR: nahraď URL za talks.slajs.eu/YYYY-MM-DD-nazev/ (data= URL-encoded) -->
+      <div class="qr-block">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=400x400&margin=0&data=https%3A%2F%2Ftalks.slajs.eu%2FYYYY-MM-DD-nazev%2F" alt="QR kód na slajdy">
+        <span class="cap">slajdy online</span>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="deck-progress"><div class="deck-progress-fill"></div></div>
+<div class="deck-timer hidden" id="timer" title="T = zobrazit a spustit · R = restart">15:00</div>
+<div class="deck-hint">← → nebo mezerník pro další · F = celá obrazovka · T = časovač</div>
+<div class="deck-ui">
+  <div class="deck-dots"></div>
+  <div class="deck-counter">1 / 11</div>
+</div>
+
+<script>
+  const slides = [...document.querySelectorAll('.slide')];
+  const counter = document.querySelector('.deck-counter');
+  const dotsWrap = document.querySelector('.deck-dots');
+  const progressFill = document.querySelector('.deck-progress-fill');
+  const hint = document.querySelector('.deck-hint');
+  let i = 0;
+
+  slides.forEach((_, k) => {
+    const d = document.createElement('b');
+    d.addEventListener('click', (e) => { e.stopPropagation(); show(k); });
+    dotsWrap.appendChild(d);
+  });
+  const dots = [...dotsWrap.children];
+
+  const MOBILE = window.matchMedia('(max-width: 819px)').matches;
+  if (MOBILE) {
+    document.documentElement.classList.add('m');
+    const vp = document.querySelector('meta[name=viewport]');
+    if (vp) vp.setAttribute('content', 'width=1100');
+  }
+
+  function fit(slide) {
+    if (MOBILE) return;
+    const stage = slide.querySelector('.stage');
+    if (!stage) return;
+    stage.style.transform = 'none';
+    stage.style.zoom = '1';
+    const w = stage.offsetWidth, h = stage.offsetHeight;
+    if (!w || !h) return;
+    const margin = 0.92;
+    stage.style.zoom = Math.min((window.innerWidth * margin) / w, (window.innerHeight * margin) / h, 1.7);
+  }
+
+  function show(n) {
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((s, k) => s.classList.toggle('active', k === i));
+    dots.forEach((d, k) => d.classList.toggle('on', k === i));
+    counter.textContent = (i + 1) + ' / ' + slides.length;
+    progressFill.style.width = (slides.length > 1 ? i / (slides.length - 1) * 100 : 0) + '%';
+    history.replaceState(null, '', '#' + (i + 1));
+    requestAnimationFrame(() => fit(slides[i]));
+    if (i > 0) hint.classList.add('gone');
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (['ArrowRight', 'ArrowDown', 'PageDown', ' '].includes(e.key)) { show(i + 1); e.preventDefault(); }
+    else if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(e.key)) { show(i - 1); e.preventDefault(); }
+    else if (e.key === 'Home') show(0);
+    else if (e.key === 'End') show(slides.length - 1);
+    else if (e.key === 'f' || e.key === 'F') {
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+      else document.exitFullscreen?.();
+    }
+    else if (e.key === 't' || e.key === 'T') {
+      const nowHidden = timerEl.classList.toggle('hidden');
+      if (!nowHidden) { timerStart = Date.now(); tickTimer(); }
+    }
+    else if (e.key === 'r' || e.key === 'R') { timerStart = Date.now(); tickTimer(); }
+  });
+  /* Pozn.: žádný klik-na-další-slajd (záměrně). Navigace jen klávesami a tečkami. */
+
+  window.addEventListener('resize', () => { if (!MOBILE) fit(slides[i]); });
+  window.addEventListener('load', () => { if (!MOBILE) slides.forEach(fit); });
+
+  const TALK_MINUTES = 15; /* uprav podle délky talku */
+  const timerEl = document.getElementById('timer');
+  let timerStart = Date.now();
+  function tickTimer() {
+    const remain = TALK_MINUTES * 60 - (Date.now() - timerStart) / 1000;
+    const over = remain < 0;
+    const a = Math.abs(remain);
+    const m = Math.floor(a / 60), s = Math.floor(a % 60);
+    timerEl.textContent = (over ? '+' : '') + m + ':' + String(s).padStart(2, '0');
+    timerEl.classList.toggle('danger', over || remain <= 60);
+    timerEl.classList.toggle('warn', !over && remain > 60 && remain <= 5 * 60);
+  }
+  setInterval(tickTimer, 250);
+  tickTimer();
+
+  const start = parseInt(location.hash.slice(1), 10) - 1;
+  const begin = () => { show(Number.isNaN(start) ? 0 : start); if (!MOBILE) slides.forEach(fit); };
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(begin);
+    setTimeout(begin, 600);
+  } else {
+    begin();
+  }
+</script>
+</body>
+</html>

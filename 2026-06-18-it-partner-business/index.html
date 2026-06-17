@@ -119,6 +119,7 @@
   .chip.good { background: var(--green-bg); color: var(--green-fg); }
   .chip.ok { background: var(--blue-bg); color: var(--blue-fg); }
   .chip.bad { background: var(--red-bg); color: var(--red-fg); }
+  .ptable-cap { margin-top: 10px; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.5px; color: var(--muted); }
 
   /* ---------- THANKS ---------- */
   .thanks .stage { text-align: center; }
@@ -226,7 +227,6 @@
     <div class="stage">
       <div class="stext">IT kompetence by dnes měli mít <span class="hl">úplně všichni.</span></div>
       <div class="ssub">Práce s daty, s AI… Pryč je doba „chci něco s nálepkou IT → zadám tiket".</div>
-      <div class="spunch">IT má pomáhat, aby týmy byly <span class="hl">soběstačné</span> — a samo mělo <span class="hl">čas na strategické věci.</span></div>
     </div>
   </section>
 
@@ -237,9 +237,10 @@
       <h2 class="title">Jak taková firma vypadá</h2>
       <ul class="points">
         <li><b>IT kompetence napříč firmou</b><span class="sub">Práci s daty a AI umí každý tým — není to „IT věc".</span></li>
-        <li><b>IT je u toho od začátku</b><span class="sub">Partner při vymýšlení věcí, ne tiket na konci.</span></li>
-        <li><b>Cílem je soběstačnost týmů</b><span class="sub">IT pomáhá, aby si týmy uměly pomoct samy.</span></li>
-        <li><b>Technologie se plánují od začátku</b><span class="sub">U nového projektu i businessu se rovnou myslí na automatizovatelnost.</span></li>
+        <li><b>Ochota měnit procesy, ne jen nástroje</b><span class="sub">Měníme, jak věci děláme — ne jen kupujeme další software.</span></li>
+        <li><b>Soběstačnost týmů</b><span class="sub">IT pomáhá, aby si týmy uměly pomoct samy.</span></li>
+        <li><b>Technologie se berou v úvahu od začátku</b><span class="sub">U nového projektu i businessu se rovnou myslí na automatizovatelnost.</span></li>
+        <li><b>Bezpečnost a pravidla od začátku, ne jako brzda</b><span class="sub">Daná dopředu, aby nadšení nepřerostlo v chaos.</span></li>
       </ul>
     </div>
   </section>
@@ -248,7 +249,7 @@
   <section class="slide">
     <div class="stage">
       <div class="slide-head"><span>Můj pohled</span></div>
-      <h2 class="title">Jak se dívám na IT ve firmě</h2>
+      <h2 class="title">Role IT v takové firmě</h2>
       <ul class="points">
         <li><b>Self-service, kde to jde</b><span class="sub">Příklad: dáváme lidem datové modely, ne hotové reporty.</span></li>
         <li><b>Konzultantský přístup</b><span class="sub">Zaměřuju se víc na procesy než na hard skills.</span></li>
@@ -435,14 +436,15 @@
           <tr><th>Proces</th><th>Vlastník</th><th>Provozovatel</th><th class="c">Hodnota</th><th class="c">Cena</th></tr>
         </thead>
         <tbody>
-          <tr><td class="proc">Partner Onboarding</td><td class="own">IT</td><td><span class="chip it">IT</span></td><td class="c"><span class="chip ok">OK</span></td><td class="c"><span class="chip bad">Bad</span></td></tr>
-          <tr><td class="proc">O2C</td><td class="own">IT</td><td><span class="chip it">IT</span></td><td class="c"><span class="chip good">Good</span></td><td class="c"><span class="chip ok">Ok</span></td></tr>
+          <tr><td class="proc">Partner Onboarding</td><td class="own">IT</td><td><span class="chip it">IT</span></td><td class="c"><span class="chip ok">OK</span></td><td class="c"><span class="chip ok">Ok</span></td></tr>
+          <tr><td class="proc">Order to Cash</td><td class="own">IT</td><td><span class="chip it">IT</span></td><td class="c"><span class="chip good">Good</span></td><td class="c"><span class="chip ok">Ok</span></td></tr>
           <tr><td class="proc">Partner Support</td><td class="own">IT</td><td><span class="chip it">IT</span></td><td class="c"><span class="chip ok">OK</span></td><td class="c"><span class="chip ok">Ok</span></td></tr>
-          <tr><td class="proc">Employee Onboarding</td><td class="own">IT</td><td><span class="chip it">IT</span></td><td class="c"><span class="chip bad">Bad</span></td><td class="c"><span class="chip bad">Bad</span></td></tr>
+          <tr><td class="proc">Employee Onboarding</td><td class="own">IT</td><td><span class="chip it">IT</span></td><td class="c"><span class="chip ok">OK</span></td><td class="c"><span class="chip bad">Bad</span></td></tr>
           <tr><td class="proc">Employee Offboarding</td><td class="own">IT</td><td><span class="chip it">IT</span></td><td class="c"><span class="chip bad">Bad</span></td><td class="c"><span class="chip bad">Bad</span></td></tr>
-          <tr><td class="proc">Employee Equipment &amp; Licenses</td><td class="own">IT</td><td><span class="chip it">IT</span></td><td class="c"><span class="chip bad">Bad</span></td><td class="c"><span class="chip bad">Bad</span></td></tr>
+          <tr><td class="proc">Employee Equipment &amp; Licenses</td><td class="own">IT</td><td><span class="chip it">IT</span></td><td class="c"><span class="chip ok">OK</span></td><td class="c"><span class="chip bad">Bad</span></td></tr>
         </tbody>
       </table>
+      <div class="ptable-cap">* Ilustrativní příklad — ne reálná data. 🙂</div>
       <div class="note">Proces se špatnou hodnotou, který je celý manuální → drobné úpravy nemají smysl. <b>Je celý na vyhození.</b></div>
     </div>
   </section>
@@ -521,7 +523,7 @@
       <div class="cards">
         <div class="card"><div class="ct">Hand-crafted</div><h3>Řádek po řádku</h3><p>Klasika; bezpečnost první, rychlost vedlejší.</p></div>
         <div class="card"><div class="ct">AI-Assisted</div><h3>AI po boku</h3><p>Dnešní standard — výrazně rychlejší.</p></div>
-        <div class="card"><div class="ct">Agentic</div><h3>AI místo programátora</h3><p>Já řeknu co, AI naplánuje a provede; kontroluje se navzájem.</p></div>
+        <div class="card"><div class="ct">Agentic</div><h3>AI místo programátora</h3><p>Programátor validuje plán a výstup. Soustava AI agentů, kteří se navzájem challengují.</p></div>
         <div class="card"><div class="ct">Vibe coding</div><h3>AI dělá vše</h3><p>Pro experimenty a prototypy.</p></div>
       </div>
       <div class="note">Žádný způsob není „lepší" — záleží na použití (<b>riziko × rychlost</b>).</div>

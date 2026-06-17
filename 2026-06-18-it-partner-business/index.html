@@ -180,6 +180,47 @@
   .pipe .gate-trust.yes { background: var(--green-bg); color: var(--green-fg); }
   .pipe .flowdot { width: 26px; height: 26px; border-radius: 50%; border: 2px solid currentColor; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; }
 
+  /* ---------- DETAIL: čtyři typy vývoje (srovnávací matice) ---------- */
+  .devtypes .stage { width: 1400px; }
+  .devtypes .title { margin-bottom: 22px; }
+  .devtypes .grid { display: grid; grid-template-columns: 188px repeat(4, 1fr); gap: 0 16px; }
+  .devtypes .type-head { background: var(--card); border: 1.5px solid var(--paper-line); border-radius: 5px; padding: 16px 18px 18px; box-shadow: 3px 5px 0 rgba(20,17,15,0.06); margin-bottom: 26px; border-top-width: 4px; }
+  .devtypes .t1 { border-top-color: var(--amber); }
+  .devtypes .t2 { border-top-color: var(--green); }
+  .devtypes .t3 { border-top-color: var(--blue); }
+  .devtypes .t4 { border-top-color: var(--purple); }
+  .devtypes .type-no { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500; color: #fff; padding: 1px 7px; border-radius: 3px; display: inline-block; margin-bottom: 9px; }
+  .devtypes .t1 .type-no { background: var(--amber); }
+  .devtypes .t2 .type-no { background: var(--green); }
+  .devtypes .t3 .type-no { background: var(--blue); }
+  .devtypes .t4 .type-no { background: var(--purple); }
+  .devtypes .type-name { font-family: 'Space Grotesk', sans-serif; font-size: 19px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.1; }
+  .devtypes .type-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-style: italic; color: var(--muted); margin-top: 6px; }
+  .devtypes .scales { grid-column: 1 / -1; background: var(--card); border: 1.5px solid var(--paper-line); border-radius: 6px; padding: 22px 26px 18px; margin-bottom: 30px; box-shadow: 3px 5px 0 rgba(20,17,15,0.06); }
+  .devtypes .scales-title { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 18px; }
+  .devtypes .scale-row { display: grid; grid-template-columns: 162px 1fr; gap: 20px; align-items: center; padding: 9px 0; }
+  .devtypes .scale-label { font-family: 'Space Grotesk', sans-serif; font-size: 13.5px; font-weight: 600; color: var(--ink); text-align: right; }
+  .devtypes .scale-meter { position: relative; }
+  .devtypes .scale-bar { height: 9px; border-radius: 5px; background: linear-gradient(90deg, var(--amber), var(--green) 36%, var(--blue) 68%, var(--purple)); }
+  .devtypes .scale-dots { position: absolute; top: 0; left: 0; right: 0; height: 9px; }
+  .devtypes .scale-dots span { position: absolute; top: 50%; width: 12px; height: 12px; border-radius: 50%; transform: translate(-50%, -50%); border: 2.5px solid var(--card); box-shadow: 0 0 0 1px rgba(20,17,15,0.12); }
+  .devtypes .scale-dots .d1 { left: 11%; background: var(--amber); }
+  .devtypes .scale-dots .d2 { left: 38%; background: var(--green); }
+  .devtypes .scale-dots .d3 { left: 64%; background: var(--blue); }
+  .devtypes .scale-dots .d4 { left: 90%; background: var(--purple); }
+  .devtypes .scale-ends { display: flex; justify-content: space-between; margin-top: 7px; font-size: 12px; color: var(--ink); font-weight: 600; }
+  .devtypes .data { grid-column: 1 / -1; }
+  .devtypes .drow { display: grid; grid-template-columns: 188px repeat(4, 1fr); gap: 0 16px; border-top: 1px solid var(--paper-line); }
+  .devtypes .drow:last-child { border-bottom: 1px solid var(--paper-line); }
+  .devtypes .dlabel { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 13px; color: var(--ink); padding: 14px 0; display: flex; align-items: center; }
+  .devtypes .dcell { font-size: 13px; line-height: 1.4; color: #2c2820; padding: 14px 0 14px 12px; padding-right: 8px; }
+  .devtypes .dcell strong { font-weight: 700; }
+  .devtypes .dcell.lead-1 { box-shadow: inset 3px 0 0 var(--amber); }
+  .devtypes .dcell.lead-2 { box-shadow: inset 3px 0 0 var(--green); }
+  .devtypes .dcell.lead-3 { box-shadow: inset 3px 0 0 var(--blue); }
+  .devtypes .dcell.lead-4 { box-shadow: inset 3px 0 0 var(--purple); }
+  .devtypes .footnote { margin-top: 20px; font-size: 12px; color: var(--muted); font-style: italic; text-align: center; }
+
   /* ---------- mobile ---------- */
   html.m, html.m body { height: auto; overflow-x: hidden; overflow-y: auto; }
   html.m .deck { position: static; inset: auto; }
@@ -241,6 +282,7 @@
         <li><b>Soběstačnost týmů</b><span class="sub">IT pomáhá, aby si týmy uměly pomoct samy.</span></li>
         <li><b>Technologie se berou v úvahu od začátku</b><span class="sub">U nového projektu i businessu se rovnou myslí na automatizovatelnost.</span></li>
         <li><b>Bezpečnost a pravidla od začátku, ne jako brzda</b><span class="sub">Daná dopředu, aby nadšení nepřerostlo v chaos.</span></li>
+        <li><b>IT se hodnotí podle dopadu na business</b><span class="sub">Dostupnost služeb je standard, který se očekává automaticky.</span></li>
       </ul>
     </div>
   </section>
@@ -530,11 +572,88 @@
     </div>
   </section>
 
+  <!-- 4 TYPY VÝVOJE — DETAILNÍ SROVNÁNÍ -->
+  <section class="slide devtypes">
+    <div class="stage">
+      <div class="slide-head"><span>Interní aplikace</span></div>
+      <h2 class="title">Čtyři typy vývoje — detailně</h2>
+      <div class="grid">
+        <div></div>
+        <div class="type-head t1"><span class="type-no">01</span><div class="type-name">Hand-crafted</div><div class="type-tag">„když nic jiného nefunguje"</div></div>
+        <div class="type-head t2"><span class="type-no">02</span><div class="type-name">AI-Assisted</div><div class="type-tag">„pomoc od AI"</div></div>
+        <div class="type-head t3"><span class="type-no">03</span><div class="type-name">Agentic</div><div class="type-tag">„orchestrace agentů"</div></div>
+        <div class="type-head t4"><span class="type-no">04</span><div class="type-name">Vibe Coding</div><div class="type-tag">„prototyp za večer"</div></div>
+
+        <div class="scales">
+          <div class="scales-title">Škály — kde který typ leží</div>
+          <div class="scale-row"><div class="scale-label">Autonomie agentů</div><div class="scale-meter"><div class="scale-bar"></div><div class="scale-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span><span class="d4"></span></div><div class="scale-ends"><span>Žádná</span><span>Plná</span></div></div></div>
+          <div class="scale-row"><div class="scale-label">Rychlost dodání</div><div class="scale-meter"><div class="scale-bar"></div><div class="scale-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span><span class="d4"></span></div><div class="scale-ends"><span>Roky</span><span>Večer</span></div></div></div>
+          <div class="scale-row"><div class="scale-label">Kdo to zvládne</div><div class="scale-meter"><div class="scale-bar"></div><div class="scale-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span><span class="d4"></span></div><div class="scale-ends"><span>Inženýři</span><span>Kdokoliv</span></div></div></div>
+          <div class="scale-row"><div class="scale-label">Znalost kódu</div><div class="scale-meter"><div class="scale-bar"></div><div class="scale-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span><span class="d4"></span></div><div class="scale-ends"><span>Detailní</span><span>Žádná</span></div></div></div>
+          <div class="scale-row"><div class="scale-label">Riziko</div><div class="scale-meter"><div class="scale-bar"></div><div class="scale-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span><span class="d4"></span></div><div class="scale-ends"><span>Nízké</span><span>Vysoké</span></div></div></div>
+        </div>
+
+        <div class="data">
+          <div class="drow">
+            <div class="dlabel">Účel</div>
+            <div class="dcell lead-1"><strong>Udržovat</strong> — legacy systémy, které nikdo nepřepisuje</div>
+            <div class="dcell lead-2"><strong>Produkt</strong> — placený SaaS s kritickým SLA</div>
+            <div class="dcell lead-3"><strong>Automatizovat</strong> — interní aplikace a SaaS bez kritického SLA</div>
+            <div class="dcell lead-4"><strong>Zkoušet</strong> — nápady, prototypy, kód na vyhození</div>
+          </div>
+          <div class="drow">
+            <div class="dlabel">Uživatelé</div>
+            <div class="dcell lead-1"><strong>Veteráni</strong> — COBOL, embedded, 30 let staré codebase</div>
+            <div class="dcell lead-2"><strong>Veřejnost</strong> — SaaS, mobilní aplikace, e-shopy</div>
+            <div class="dcell lead-3"><strong>Uzavřená skupina</strong> — týmy, komunity, niche nástroje</div>
+            <div class="dcell lead-4"><strong>Osobní</strong> — vlastní nástroje, prototypy, víkendové hacky</div>
+          </div>
+          <div class="drow">
+            <div class="dlabel">V sázce</div>
+            <div class="dcell lead-1"><strong>Lock-in</strong> — znalost vázaná na jeden tým</div>
+            <div class="dcell lead-2"><strong>Byznys</strong> — výpadek stojí tržby</div>
+            <div class="dcell lead-3"><strong>Efektivita</strong> — výpadek stojí hodiny</div>
+            <div class="dcell lead-4"><strong>Experiment</strong> — selhání nic nestojí</div>
+          </div>
+          <div class="drow">
+            <div class="dlabel">Škálování</div>
+            <div class="dcell lead-1"><strong>Úzké hrdlo</strong> — specialisté jsou limit</div>
+            <div class="dcell lead-2"><strong>Zrychlení</strong> — inženýři ~1,5× rychlejší</div>
+            <div class="dcell lead-3"><strong>Násobení</strong> — agenti pracují paralelně, 24/7</div>
+            <div class="dcell lead-4"><strong>Sólo</strong> — výstup omezený jedním večerem</div>
+          </div>
+          <div class="drow">
+            <div class="dlabel">Vývoj</div>
+            <div class="dcell lead-1">Programuju postaru</div>
+            <div class="dcell lead-2">Programuju, AI napovídá a doplňuje</div>
+            <div class="dcell lead-3">Popíšu cíl a schválím plán; agenti se drží pravidel a kontrolují se navzájem</div>
+            <div class="dcell lead-4">Popíšu, AI dodá — ruce pryč</div>
+          </div>
+          <div class="drow">
+            <div class="dlabel">Kontrola</div>
+            <div class="dcell lead-1">Důsledná lidská kontrola, pair programming</div>
+            <div class="dcell lead-2">Člověk + agent</div>
+            <div class="dcell lead-3">Agent (CodeRabbit, Wiz, AISLE)</div>
+            <div class="dcell lead-4">Žádná</div>
+          </div>
+          <div class="drow">
+            <div class="dlabel">Compliance</div>
+            <div class="dcell lead-1">Plná regulace + audity, certifikace</div>
+            <div class="dcell lead-2">ISO 27001, SOC 2, GDPR</div>
+            <div class="dcell lead-3">Interní standardy</div>
+            <div class="dcell lead-4">—</div>
+          </div>
+        </div>
+      </div>
+      <p class="footnote">Žádný typ není „lepší" — každý má své místo. Klíč je vědět, kterým směrem jdeš.</p>
+    </div>
+  </section>
+
   <!-- POUŽITÍ V YSOFTU -->
   <section class="slide">
     <div class="stage">
       <div class="slide-head"><span>Interní aplikace</span></div>
-      <h2 class="title">Použití v YSoftu</h2>
+      <h2 class="title">Interní použití v YSoftu</h2>
       <div class="cards">
         <div class="card"><div class="ct">Agentic Development</div><h3>Interní aplikace</h3><p>Dělá IT pro celou firmu. Ručíme za kvalitu — ale neřešíme kód.</p></div>
         <div class="card"><div class="ct">Vibe coding</div><h3>Personal aplikace</h3><p>Dělám si je sám pro sebe a nesdílím. Můžou být základ pro interní aplikaci.</p></div>
@@ -681,7 +800,7 @@
 <div class="deck-hint">← → nebo mezerník pro další · F = celá obrazovka · T = časovač</div>
 <div class="deck-ui">
   <div class="deck-dots"></div>
-  <div class="deck-counter">1 / 38</div>
+  <div class="deck-counter">1 / 39</div>
 </div>
 
 <script>

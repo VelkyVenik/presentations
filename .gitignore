@@ -3,3 +3,7 @@
 
 # macOS
 .DS_Store
+
+# build output (Cloudflare Workers) + tooling
+dist/
+node_modules/

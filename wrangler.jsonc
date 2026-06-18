@@ -1,0 +1,10 @@
+{
+  // Cloudflare Workers — static assets only (no server code).
+  // Build step (build.sh) produces ./dist with the publishable site;
+  // notes/ and _template/ are excluded there, so they never reach the web.
+  "name": "talks-slajs",
+  "compatibility_date": "2026-06-01",
+  "assets": {
+    "directory": "./dist"
+  }
+}

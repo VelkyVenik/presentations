@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-Static collection of talk decks by Václav Šlajs, published via GitHub Pages from the `main` branch at **https://talks.slajs.eu/** (custom domain set in `CNAME`). There is no build step, no package manager, and no tests — everything is hand-written HTML/CSS/vanilla JS served as-is. Pages runs Jekyll (no `.nojekyll`), so directories starting with `_` (e.g. `_template/`) are **not** published.
+Static collection of talk decks by Václav Šlajs, served at **https://talks.slajs.eu/**. Hosting is **Cloudflare Workers (static assets)**: `build.sh` copies the publishable files into `dist/` (excluding `notes/`, `_template/`, docs) and Cloudflare serves `dist/`. Everything is hand-written HTML/CSS/vanilla JS — no framework, no tests. *(Migrating from GitHub Pages; until the DNS cutover the live site may still be GitHub Pages.)*
 
 To preview locally, open the relevant `index.html` directly in a browser (the deck self-fits), or serve the repo root (`python3 -m http.server`) so that `../shared/...` paths resolve.
 
@@ -12,12 +12,13 @@ To preview locally, open the relevant `index.html` directly in a browser (the de
 
 - `index.html` (root) — landing page linking to each talk. References shared assets as `shared/...`.
 - `YYYY-MM-DD-name/index.html` — one self-contained deck per talk (published). References shared assets as `../shared/...`.
-- `YYYY-MM-DD-name/notes/` — **source of the deck, not published** (`**/notes/` is gitignored). Holds:
+- `YYYY-MM-DD-name/notes/` — **source of the deck**, committed in the (private) repo so it travels, but excluded from `dist/` by `build.sh` → never reaches the web. *(Currently still gitignored — flips to committed once the repo is private.)* Holds:
   - `story.md` — raw narrative / source material (dump, notes, numbers, links).
   - `structure.md` — the slide-by-slide spec. **`index.html` is generated/synced from this file.**
 - `shared/deck.css` + `shared/deck.js` — **the framework** (loaded by every deck via `../shared/deck.*`). All slide-type CSS + the nav/fit/timer runtime live here. Change once → applies to every deck.
 - `shared/` — also holds assets reused across talks (e.g. `me.jpeg`).
-- `_template/` — thin starter deck + skeletons, **committed but not published** (underscore dir). Copy it to start a new talk.
+- `_template/` — thin starter deck + skeletons, **committed but excluded from the build** (`build.sh`). Copy it to start a new talk.
+- `build.sh` / `wrangler.jsonc` — Cloudflare Workers deploy (see **Deploy** below).
 
 ## Creating a new talk (the workflow)
 
@@ -55,3 +56,11 @@ Each deck `index.html` is **thin**: it links the shared framework (`../shared/de
 - Design language is shared: warm paper background, CSS custom properties (`--ink`, `--paper`, `--amber`, …) in `:root`, fonts Space Grotesk / Inter / JetBrains Mono from Google Fonts.
 - Decks are written in the talk's audience language (recent ones: Czech, plus one English). `notes/` matches.
 - QR codes are generated inline via the `api.qrserver.com` URL API.
+
+## Deploy
+
+- **`build.sh`** → produces `dist/` (the publishable site) by copying everything except `notes/`, `_template/`, docs and build/config files. `dist/` is gitignored.
+- **`wrangler.jsonc`** → an assets-only Cloudflare Worker serving `./dist` (no server code).
+- **Cloudflare Workers Builds** is wired to the repo: build command `bash build.sh`, then it deploys `dist/`. Custom domain `talks.slajs.eu` is set in the Cloudflare dashboard (not via a `CNAME` file).
+- The repo is **private**, so committed `notes/` stay private; the build keeps them off the web. To publish: push to `main` → Cloudflare builds & deploys.
+- Preview locally: `./build.sh && python3 -m http.server -d dist`, or just open a deck's `index.html` directly.

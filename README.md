@@ -28,8 +28,15 @@ A new talk starts by copying `_template/`. See `CLAUDE.md` for the full workflow
 
 ## Publishing
 
-The site runs on GitHub Pages from the `main` branch. A given talk's deck is at
-`https://talks.slajs.eu/YYYY-MM-DD-name/`.
+Hosted on **Cloudflare Workers** (static assets). `build.sh` builds the
+publishable site into `dist/` (excluding `notes/`, `_template/`, docs); Cloudflare
+serves `dist/`. Push to `main` → Cloudflare builds & deploys. A given talk's deck
+is at `https://talks.slajs.eu/YYYY-MM-DD-name/`.
+
+```
+./build.sh                         # → dist/
+python3 -m http.server -d dist     # local preview of the built site
+```
 
 ## Deck controls
 

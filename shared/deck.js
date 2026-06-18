@@ -10,6 +10,13 @@
 (function () {
   const TALK_MINUTES = parseInt(document.currentScript?.dataset.minutes, 10) || 15;
 
+  // Cloudflare Web Analytics beacon
+  const cfb = document.createElement('script');
+  cfb.defer = true;
+  cfb.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+  cfb.setAttribute('data-cf-beacon', '{"token": "95d29dbc70cd4b92bb094c8c52e9ca0d"}');
+  document.head.appendChild(cfb);
+
   const slides = [...document.querySelectorAll('.slide')];
   const counter = document.querySelector('.deck-counter');
   const dotsWrap = document.querySelector('.deck-dots');

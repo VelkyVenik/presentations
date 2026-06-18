@@ -31,6 +31,11 @@ body {
 .slide.active { opacity: 1; pointer-events: auto; }
 .stage { width: 1040px; }
 
+/* content slides (those with a header) anchor to the top so the header
+   doesn't jump vertically between slides of different content height;
+   hero slides (title/divider/stat/quote/qna/thanks) stay centered. */
+.slide:has(.slide-head) { align-items: flex-start; padding-top: 60px; }
+
 .deck-progress { position: fixed; top: 0; left: 0; right: 0; height: 4px; background: var(--paper-line); z-index: 60; }
 .deck-progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--amber), #d97706); transition: width 0.35s ease; }
 .deck-ui { position: fixed; right: 20px; bottom: 16px; display: flex; align-items: center; gap: 14px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); z-index: 50; user-select: none; }

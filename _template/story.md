@@ -1,20 +1,20 @@
-# <NÁZEV TALKU> — story (zdroj)
+# <TALK TITLE> — story (source)
 
-> Sem patří syrový podklad: vyprávění, poznámky, odrazy z diskuzí, odkazy, čísla.
-> Z tohohle + ze `structure.md` se generuje `index.html`. Tenhle soubor se NEpublikuje
-> (leží v `notes/`, který je gitignorovaný).
+> Raw source material: narrative, notes, takeaways from discussions, links, numbers.
+> index.html is generated from this + structure.md. Not published (lives in notes/, gitignored).
+> Write the actual content in the talk's audience language.
 
-## Kontext
-- Publikum:
-- Příležitost / kdy / délka:
-- Prezentuje:
-- Jazyk:
+## Context
+- Audience:
+- Occasion / when / length:
+- Presenter:
+- Language:
 
-## Příběh / oblouk
-(volně sem napiš, jak to chceš odvyprávět — bez ohledu na slajdy)
+## Story / arc
+(write freely how you want to tell it — regardless of slides)
 
-## Co chci ukázat / klíčové body
+## What I want to show / key points
 -
 
-## Čísla, citace, odkazy
+## Numbers, quotes, links
 -

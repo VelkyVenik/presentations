@@ -1,34 +1,34 @@
-# <NÁZEV TALKU> — struktura prezentace
+# <TALK TITLE> — slide structure
 
-> Edituj tady (text, pořadí, přidej/uber slajdy) a podle toho se srovná `index.html`.
-> Formát: `## N. [typ]` + obsah. Typy: `title`, `content`, `divider`, `quote`, `statement`, `stat`, `framework`, `qna`, `thanks`.
-> Standardizovaný je úvodní (`title`) a závěrečný (`thanks`) slajd — drž jejich strukturu.
-> Tenhle soubor se NEpublikuje (leží v `notes/`, gitignorováno).
+> Edit here (text, order, add/remove slides); index.html is synced from this.
+> Format: `## N. [type]` + content. Types: title, content, divider, quote, statement, stat, framework, demo, qna, thanks.
+> Standardized TITLE and THANKS slides — keep their structure.
+> Not published (lives in notes/, gitignored). Write content in the talk's audience language.
 
 ---
 
 ## 1. [title]
-- **eyebrow:** DD. M. RRRR
-- **h1:** Název **talku**
-- **subtitle:** Podtitul jednou větou
-- **meta:** [foto] Václav Šlajs · Head of IT, YSoft
+- **eyebrow:** DD MMM YYYY
+- **h1:** Talk **title**
+- **subtitle:** One-line subtitle
+- **meta:** [photo] Václav Šlajs · Head of IT, YSoft
 
 ## 2. [content]
-- **head:** Sekce
-- **title:** Nadpis slajdu
+- **head:** Section
+- **title:** Slide title
 - **bullets:**
-  - **Tučný úvod** — popisek.
-  - **Druhý bod** — popisek.
+  - **Bold lead** — detail.
+  - **Second point** — detail.
 
 ## 3. [divider] — Part 01
-- **title:** Název sekce
-- **meta:** Podtitul sekce
+- **title:** Section name
+- **meta:** Section subtitle
 
-## … další slajdy …
+## … more slides …
 
 ## N. [thanks]
-- **eyebrow:** Děkuju za pozornost
-- **h1:** Díky!
-- **podpis:** [foto] Václav Šlajs · Head of IT, YSoft
-- **kontakty:** vaclav.slajs@ysoft.com · LinkedIn /in/vaclav-slajs
-- **QR:** na slajdy (talks.slajs.eu/YYYY-MM-DD-nazev/) + popisek „slajdy online"
+- **eyebrow:** Thanks for your attention
+- **h1:** Thanks!
+- **signature:** [photo] Václav Šlajs · Head of IT, YSoft
+- **contacts:** vaclav.slajs@ysoft.com · LinkedIn /in/vaclav-slajs
+- **QR:** to the slides (talks.slajs.eu/YYYY-MM-DD-name/) + caption "slides online"

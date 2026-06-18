@@ -15,8 +15,9 @@ To preview locally, open the relevant `index.html` directly in a browser (the de
 - `YYYY-MM-DD-name/notes/` — **source of the deck, not published** (`**/notes/` is gitignored). Holds:
   - `story.md` — raw narrative / source material (dump, notes, numbers, links).
   - `structure.md` — the slide-by-slide spec. **`index.html` is generated/synced from this file.**
-- `_template/` — the canonical deck "stack" + skeletons, **committed but not published** (underscore dir). Copy it to start a new talk.
-- `shared/` — assets reused across talks (e.g. `me.jpeg`).
+- `shared/deck.css` + `shared/deck.js` — **the framework** (loaded by every deck via `../shared/deck.*`). All slide-type CSS + the nav/fit/timer runtime live here. Change once → applies to every deck.
+- `shared/` — also holds assets reused across talks (e.g. `me.jpeg`).
+- `_template/` — thin starter deck + skeletons, **committed but not published** (underscore dir). Copy it to start a new talk.
 
 ## Creating a new talk (the workflow)
 
@@ -29,7 +30,7 @@ To preview locally, open the relevant `index.html` directly in a browser (the de
 
 ## Deck architecture
 
-Each deck `index.html` is one self-contained file (all CSS + JS inline). It is a **shared convention, not a shared library** — there is no common JS/CSS file, so the stack is copied from `_template/` per deck and behavior changes must be applied per-deck (or to the template for future decks).
+Each deck `index.html` is **thin**: it links the shared framework (`../shared/deck.css` + `../shared/deck.js`) and contains only the `<div class="deck">` slides. Change the framework once in `shared/` and it applies to every deck. Presenter-timer length is set via `data-minutes` on the `deck.js` script tag. (Exception: `2026-06-15-ai-that-works/` predates the framework and stays fully self-contained with bespoke per-slide layouts — leave it.)
 
 - Slides are `<section class="slide">`; the active one gets `.active`. Each holds a `.stage` at a fixed design width (default 1040px).
 - The inline `<script>` drives nav dots, progress bar, counter, keyboard navigation, `fit()` scaling, and the presenter timer. Slide state lives in the URL hash (`#3` = slide 3).

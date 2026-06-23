@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Než uvěříme generovanému kódu · Václav Šlajs</title>
+<link rel="stylesheet" href="../shared/deck.css">
+<style>
+  /* Fáze = jedna velká karta na slajd (ilustrace + popis), styl z AI That Works.
+     Prefix pc- ať se netluče se sdíleným deck.css. Barvy: P1 purple, P2 blue, P3 green, P4 amber. */
+  .pc-card { background: var(--card); border: 1.5px solid var(--paper-line); border-radius: 6px; box-shadow: 4px 6px 0 rgba(20,17,15,0.06); overflow: hidden; }
+  .pc-illu { display: block; width: 100%; border-bottom: 1.5px solid var(--paper-line); }
+  .pc-body { padding: 18px 20px 22px; }
+  .pc-line { display: flex; align-items: baseline; gap: 9px; margin-bottom: 9px; }
+  .pc-no { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500; padding: 2px 8px; border-radius: 3px; color: #fff; }
+  .pc-kind { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); }
+  .pc-card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 5px; }
+  .pc-tag { font-size: 13px; font-style: italic; margin-bottom: 14px; font-weight: 500; }
+  .pc-card ul { list-style: none; }
+  .pc-card li { font-size: 13px; line-height: 1.4; color: #2c2820; padding-left: 18px; position: relative; margin-bottom: 8px; }
+  .pc-card li::before { content: ""; position: absolute; left: 2px; top: 6px; width: 6px; height: 6px; transform: rotate(45deg); }
+  .pc-card li strong { font-weight: 700; }
+  .pc-p1 .pc-no { background: var(--purple); } .pc-p1 .pc-tag { color: var(--purple); } .pc-p1 li::before { background: var(--purple); }
+  .pc-p2 .pc-no { background: var(--blue); }   .pc-p2 .pc-tag { color: var(--blue); }   .pc-p2 li::before { background: var(--blue); }
+  .pc-p3 .pc-no { background: var(--green); }  .pc-p3 .pc-tag { color: var(--green); }  .pc-p3 li::before { background: var(--green); }
+  .pc-p4 .pc-no { background: var(--amber); }  .pc-p4 .pc-tag { color: var(--amber); }  .pc-p4 li::before { background: var(--amber); }
+
+  /* one big card per phase (jedna fáze = jeden slajd) */
+  .pc-solo { max-width: 680px; margin: 6px auto 0; }
+  .pc-solo .pc-illu { height: 230px; }
+  .pc-solo .pc-body { padding: 28px 36px 32px; }
+  .pc-solo .pc-line { margin-bottom: 12px; }
+  .pc-solo h3 { font-size: 32px; margin-bottom: 6px; }
+  .pc-solo .pc-tag { font-size: 17px; margin-bottom: 20px; }
+  .pc-solo li { font-size: 16.5px; margin-bottom: 12px; padding-left: 20px; }
+</style>
+</head>
+<body>
+
+<div class="deck">
+
+  <!-- 1 · TITLE -->
+  <section class="slide title-slide">
+    <div class="stage">
+      <div class="eyebrow">MEET &amp; QUIZ #2 · AI in development · 24. 6. 2026</div>
+      <h1>Než <span class="hl">uvěříme</span> generovanému kódu</h1>
+      <div class="subtitle">Co pro to musíme udělat</div>
+      <div class="meta"><img class="avatar" src="../shared/me.jpeg" alt="Václav Šlajs"><b>Václav Šlajs</b><span>· Head of IT, YSoft</span></div>
+    </div>
+  </section>
+
+  <!-- 2 · QUOTE — De Smet -->
+  <section class="slide quote">
+    <div class="stage">
+      <div class="qmark">“</div>
+      <div class="qtext">Typing code is not programming. Programming is learning to translate business needs into working software that survives production.</div>
+      <div class="qcap">— Jurgen De Smet</div>
+    </div>
+  </section>
+
+  <!-- 3 · QUOTE + CARDS — de Martini -->
+  <section class="slide">
+    <div class="stage">
+      <div class="eyebrow">— Martin de Martini</div>
+      <h2 class="title">AI is expected. Judgment is still yours.</h2>
+      <div class="cards">
+        <div class="card"><div class="ct">Expected</div><h3>Not optional anymore</h3><p>Using AI isn't optional anymore — it is expected. A software engineer without AI tools is a carpenter with only an old-fashioned screwdriver.</p></div>
+        <div class="card"><div class="ct">Just a tool</div><h3>The decision is yours</h3><p>You're telling the AI what world your idea lives in. Sound strategy, design and engineering experience and mindset are what get the right results.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · DEVTYPES MATRIX -->
+  <section class="slide devtypes">
+    <div class="stage">
+      <div class="slide-head"><span>Mapa</span></div>
+      <h2 class="title">Čtyři typy vývoje</h2>
+      <div class="grid">
+        <div></div>
+        <div class="type-head t1"><span class="type-no">01</span><div class="type-name">Hand-crafted</div><div class="type-tag">„když nic jiného nefunguje"</div></div>
+        <div class="type-head t2"><span class="type-no">02</span><div class="type-name">AI-Assisted</div><div class="type-tag">„pomoc od AI"</div></div>
+        <div class="type-head t3"><span class="type-no">03</span><div class="type-name">Agentic</div><div class="type-tag">„orchestrace agentů"</div></div>
+        <div class="type-head t4"><span class="type-no">04</span><div class="type-name">Vibe Coding</div><div class="type-tag">„prototyp za večer"</div></div>
+
+        <div class="scales">
+          <div class="scales-title">Škály — kde který typ leží</div>
+          <div class="scale-row"><div class="scale-label">Autonomie agentů</div><div class="scale-meter"><div class="scale-bar"></div><div class="scale-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span><span class="d4"></span></div><div class="scale-ends"><span>Žádná</span><span>Plná</span></div></div></div>
+          <div class="scale-row"><div class="scale-label">Rychlost dodání</div><div class="scale-meter"><div class="scale-bar"></div><div class="scale-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span><span class="d4"></span></div><div class="scale-ends"><span>Roky</span><span>Večer</span></div></div></div>
+          <div class="scale-row"><div class="scale-label">Kdo to zvládne</div><div class="scale-meter"><div class="scale-bar"></div><div class="scale-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span><span class="d4"></span></div><div class="scale-ends"><span>Inženýři</span><span>Kdokoliv</span></div></div></div>
+          <div class="scale-row"><div class="scale-label">Znalost kódu</div><div class="scale-meter"><div class="scale-bar"></div><div class="scale-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span><span class="d4"></span></div><div class="scale-ends"><span>Detailní</span><span>Žádná</span></div></div></div>
+          <div class="scale-row"><div class="scale-label">Riziko</div><div class="scale-meter"><div class="scale-bar"></div><div class="scale-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span><span class="d4"></span></div><div class="scale-ends"><span>Nízké</span><span>Vysoké</span></div></div></div>
+        </div>
+
+        <div class="data">
+          <div class="drow">
+            <div class="dlabel">Účel</div>
+            <div class="dcell lead-1"><strong>Udržovat</strong> — legacy systémy, které nikdo nepřepisuje</div>
+            <div class="dcell lead-2"><strong>Produkt</strong> — placený SaaS s kritickým SLA</div>
+            <div class="dcell lead-3"><strong>Automatizovat</strong> — interní aplikace a SaaS bez kritického SLA</div>
+            <div class="dcell lead-4"><strong>Zkoušet</strong> — nápady, prototypy, kód na vyhození</div>
+          </div>
+          <div class="drow">
+            <div class="dlabel">Uživatelé</div>
+            <div class="dcell lead-1"><strong>Veteráni</strong> — COBOL, embedded, 30 let staré codebase</div>
+            <div class="dcell lead-2"><strong>Veřejnost</strong> — SaaS, mobilní aplikace, e-shopy</div>
+            <div class="dcell lead-3"><strong>Uzavřená skupina</strong> — týmy, komunity, niche nástroje</div>
+            <div class="dcell lead-4"><strong>Osobní</strong> — vlastní nástroje, prototypy, víkendové hacky</div>
+          </div>
+          <div class="drow">
+            <div class="dlabel">V sázce</div>
+            <div class="dcell lead-1"><strong>Lock-in</strong> — znalost vázaná na jeden tým</div>
+            <div class="dcell lead-2"><strong>Byznys</strong> — výpadek stojí tržby</div>
+            <div class="dcell lead-3"><strong>Efektivita</strong> — výpadek stojí hodiny</div>
+            <div class="dcell lead-4"><strong>Experiment</strong> — selhání nic nestojí</div>
+          </div>
+          <div class="drow">
+            <div class="dlabel">Škálování</div>
+            <div class="dcell lead-1"><strong>Úzké hrdlo</strong> — specialisté jsou limit</div>
+            <div class="dcell lead-2"><strong>Zrychlení</strong> — inženýři ~1,5× rychlejší</div>
+            <div class="dcell lead-3"><strong>Násobení</strong> — agenti pracují paralelně, 24/7</div>
+            <div class="dcell lead-4"><strong>Sólo</strong> — výstup omezený jedním večerem</div>
+          </div>
+          <div class="drow">
+            <div class="dlabel">Vývoj</div>
+            <div class="dcell lead-1">Programuju postaru</div>
+            <div class="dcell lead-2">Programuju, AI napovídá a doplňuje</div>
+            <div class="dcell lead-3">Popíšu cíl a schválím plán; agenti se drží pravidel a kontrolují se navzájem</div>
+            <div class="dcell lead-4">Popíšu, AI dodá — ruce pryč</div>
+          </div>
+          <div class="drow">
+            <div class="dlabel">Kontrola</div>
+            <div class="dcell lead-1">Důsledná lidská kontrola, pair programming</div>
+            <div class="dcell lead-2">Člověk + agent</div>
+            <div class="dcell lead-3">Agent (CodeRabbit, Wiz, AISLE)</div>
+            <div class="dcell lead-4">Žádná</div>
+          </div>
+          <div class="drow">
+            <div class="dlabel">Compliance</div>
+            <div class="dcell lead-1">Plná regulace + audity, certifikace</div>
+            <div class="dcell lead-2">ISO 27001, SOC 2, GDPR</div>
+            <div class="dcell lead-3">Interní standardy</div>
+            <div class="dcell lead-4">—</div>
+          </div>
+        </div>
+      </div>
+      <p class="footnote">Žádný typ není „lepší" — každý má své místo. Dnes mluvíme o <strong>agentním vývoji</strong>.</p>
+    </div>
+  </section>
+
+  <!-- 5 · CÍL (statement) — setup před fázemi -->
+  <section class="slide statement">
+    <div class="stage">
+      <div class="stext">Cíl: nemuset psát ani <span class="hl">číst kód.</span></div>
+      <div class="ssub">Lidé popíšou cíl, schválí plán a zhodnotí výsledek. Agenti obstarají všechno mezi tím. Nezbavujeme se kontroly — děláme ji rychleji a líp.</div>
+    </div>
+  </section>
+
+  <!-- 6 · STATEMENT — trust question (háček do fází) -->
+  <section class="slide statement">
+    <div class="stage">
+      <div class="stext">Když kód nikdo nečte — proč mu <span class="hl">věřit?</span></div>
+      <div class="ssub">Odpověď není ve čtení řádků. Je v procesu.</div>
+    </div>
+  </section>
+
+  <!-- 7 · PHASE 1 — PROTOTYPE -->
+  <section class="slide">
+    <div class="stage">
+      <div class="pc-card pc-p1 pc-solo">
+        <svg class="pc-illu" viewBox="0 0 360 168" xmlns="http://www.w3.org/2000/svg">
+          <rect width="360" height="168" fill="#ede5fb"/>
+          <g transform="rotate(-5 96 78)">
+            <rect x="44" y="38" width="104" height="80" rx="3" fill="#fff" stroke="#7c3aed" stroke-width="1.5"/>
+            <rect x="44" y="38" width="104" height="16" rx="3" fill="#7c3aed"/>
+            <circle cx="52" cy="46" r="2" fill="#fff"/><circle cx="60" cy="46" r="2" fill="#fff"/>
+            <rect x="54" y="64" width="60" height="6" rx="3" fill="#ddd1f5"/>
+            <rect x="54" y="78" width="84" height="6" rx="3" fill="#ddd1f5"/>
+            <rect x="54" y="92" width="48" height="6" rx="3" fill="#ddd1f5"/>
+            <rect x="54" y="104" width="40" height="9" rx="4" fill="#7c3aed"/>
+          </g>
+          <circle cx="96" cy="40" r="6" fill="#e0413f"/><circle cx="96" cy="40" r="2" fill="#fff"/>
+          <path d="M170 84 C 190 84, 196 84, 214 84" stroke="#7c3aed" stroke-width="2" fill="none" stroke-dasharray="4 4"/>
+          <path d="M210 79 l8 5 -8 5" fill="none" stroke="#7c3aed" stroke-width="2"/>
+          <g transform="rotate(4 280 82)">
+            <rect x="228" y="42" width="104" height="80" rx="3" fill="#fffdf8" stroke="#14110f" stroke-width="1.5" stroke-dasharray="5 3"/>
+            <rect x="238" y="52" width="40" height="8" rx="2" fill="#14110f" opacity="0.7"/>
+            <rect x="238" y="68" width="84" height="5" rx="2" fill="#cbb8ee"/>
+            <rect x="238" y="80" width="70" height="5" rx="2" fill="#cbb8ee"/>
+            <rect x="238" y="98" width="46" height="14" rx="7" fill="#7c3aed"/>
+          </g>
+        </svg>
+        <div class="pc-body">
+          <div class="pc-line"><span class="pc-no">01</span><span class="pc-kind">Vibe coding</span></div>
+          <h3>Prototype</h3>
+          <p class="pc-tag">Jde o pochopení, ne o kód</p>
+          <ul>
+            <li>Kód stejně <strong>zahodím</strong> — pod kapotou je mi to jedno</li>
+            <li>Screenshot jako reference, popíšu use-casy a jedu (Claude Code)</li>
+            <li>Soustředím se na <strong>vzhled a interakci</strong></li>
+            <li>Ukážu zadavateli, prodiskutujeme, ladím</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 · PHASE 2 — IMPLEMENTATION -->
+  <section class="slide">
+    <div class="stage">
+      <div class="pc-card pc-p2 pc-solo">
+        <svg class="pc-illu" viewBox="0 0 360 168" xmlns="http://www.w3.org/2000/svg">
+          <rect width="360" height="168" fill="#e0e9fc"/>
+          <rect x="150" y="58" width="60" height="52" rx="4" fill="#2563eb"/>
+          <rect x="159" y="70" width="42" height="4" rx="2" fill="#bcd0f7"/>
+          <rect x="159" y="80" width="42" height="4" rx="2" fill="#bcd0f7"/>
+          <rect x="159" y="90" width="30" height="4" rx="2" fill="#bcd0f7"/>
+          <text x="180" y="128" font-family="JetBrains Mono, monospace" font-size="10" fill="#2563eb" text-anchor="middle" font-weight="500">brief + skills</text>
+          <g fill="#fff" stroke="#2563eb" stroke-width="1.3">
+            <rect x="40" y="36" width="58" height="20" rx="3"/><rect x="40" y="64" width="58" height="20" rx="3"/><rect x="40" y="92" width="58" height="20" rx="3"/>
+          </g>
+          <g font-family="JetBrains Mono, monospace" font-size="9" fill="#2563eb" text-anchor="middle">
+            <text x="69" y="49">stack</text><text x="69" y="77">CI/CD</text><text x="69" y="105">styly</text>
+          </g>
+          <g stroke="#2563eb" stroke-width="1.5" fill="none" opacity="0.6">
+            <path d="M98 46 C 125 46, 130 70, 150 74"/><path d="M98 74 L 150 80"/><path d="M98 102 C 125 102, 130 96, 150 90"/>
+          </g>
+          <g transform="translate(232 0)">
+            <circle cx="34" cy="60" r="15" fill="#fff" stroke="#2563eb" stroke-width="1.5"/>
+            <circle cx="74" cy="84" r="15" fill="#fff" stroke="#2563eb" stroke-width="1.5"/>
+            <circle cx="40" cy="108" r="15" fill="#fff" stroke="#2563eb" stroke-width="1.5"/>
+            <g fill="#2563eb"><circle cx="34" cy="60" r="4"/><circle cx="74" cy="84" r="4"/><circle cx="40" cy="108" r="4"/></g>
+          </g>
+          <g stroke="#2563eb" stroke-width="1.5" fill="none">
+            <path d="M210 78 L 256 64" stroke-dasharray="3 3"/><path d="M210 84 L 296 86" stroke-dasharray="3 3"/><path d="M210 90 L 262 106" stroke-dasharray="3 3"/>
+          </g>
+        </svg>
+        <div class="pc-body">
+          <div class="pc-line"><span class="pc-no">02</span><span class="pc-kind">Agentic</span></div>
+          <h3>Implementation</h3>
+          <p class="pc-tag">Standardizovaný stack</p>
+          <ul>
+            <li><strong>Skills</strong> řeknou agentovi pravidla — stack, styly, CI/CD</li>
+            <li>Sdružené v našem <strong>Claude Code Marketplace</strong></li>
+            <li>Spec + plán → agenti staví (plán = největší přidaná hodnota)</li>
+            <li>Ladím, dokud nejsem spokojený technicky i funkčně</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 · PHASE 3 — REVIEW -->
+  <section class="slide">
+    <div class="stage">
+      <div class="pc-card pc-p3 pc-solo">
+        <svg class="pc-illu" viewBox="0 0 360 168" xmlns="http://www.w3.org/2000/svg">
+          <rect width="360" height="168" fill="#d6f0e6"/>
+          <line x1="40" y1="34" x2="320" y2="34" stroke="#059669" stroke-width="1.5" opacity="0.4"/>
+          <circle cx="70" cy="34" r="5" fill="#059669"/>
+          <text x="70" y="22" font-family="JetBrains Mono, monospace" font-size="9" fill="#04694b" text-anchor="middle">PR</text>
+          <g>
+            <rect x="44" y="56" width="84" height="46" rx="4" fill="#fff" stroke="#059669" stroke-width="1.5"/>
+            <rect x="138" y="56" width="84" height="46" rx="4" fill="#fff" stroke="#059669" stroke-width="1.5"/>
+            <rect x="232" y="56" width="84" height="46" rx="4" fill="#fff" stroke="#059669" stroke-width="1.5"/>
+          </g>
+          <g stroke="#059669" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M78 78 l6 7 12 -15"/><path d="M172 78 l6 7 12 -15"/><path d="M266 78 l6 7 12 -15"/>
+          </g>
+          <g font-family="JetBrains Mono, monospace" font-size="9.5" fill="#04694b" text-anchor="middle" font-weight="500">
+            <text x="86" y="96">CodeRabbit</text><text x="180" y="96">Wiz</text><text x="274" y="96">AISLE</text>
+          </g>
+          <g transform="translate(305 116)">
+            <circle cx="16" cy="14" r="9" fill="#14110f"/><circle cx="16" cy="11" r="3.5" fill="#d6f0e6"/>
+            <path d="M9 18 q7 6 14 0" stroke="#d6f0e6" stroke-width="1.6" fill="none"/>
+          </g>
+          <text x="288" y="150" font-family="JetBrains Mono, monospace" font-size="9" fill="#04694b" text-anchor="end">teprve teď člověk</text>
+          <path d="M250 124 C 280 124, 290 126, 308 126" stroke="#14110f" stroke-width="1.5" fill="none" stroke-dasharray="3 3"/>
+        </svg>
+        <div class="pc-body">
+          <div class="pc-line"><span class="pc-no">03</span><span class="pc-kind">Kontrola</span></div>
+          <h3>Review</h3>
+          <p class="pc-tag">Nezávislí agenti prověří zbytek</p>
+          <ul>
+            <li>Spustí se po <strong>každém PR</strong> — kód nikdo nečetl</li>
+            <li>CodeRabbit (review), Wiz (bezpečnost), AISLE</li>
+            <li>Fixy navrhne agent (Codex)</li>
+            <li><strong>Teprve pak</strong> člověk — tady se rodí důvěra</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 · PHASE 4 — OPERATION (zisk) -->
+  <section class="slide">
+    <div class="stage">
+      <div class="pc-card pc-p4 pc-solo">
+        <svg class="pc-illu" viewBox="0 0 360 168" xmlns="http://www.w3.org/2000/svg">
+          <rect width="360" height="168" fill="#f7e6da"/>
+          <rect x="66" y="34" width="234" height="100" rx="6" fill="#fffdf8" stroke="#c2410c" stroke-width="1.5"/>
+          <g fill="#f0d9c0"><rect x="86" y="92" width="20" height="30" rx="2"/><rect x="118" y="78" width="20" height="44" rx="2"/><rect x="150" y="86" width="20" height="36" rx="2"/></g>
+          <path d="M86 100 L126 84 L166 90 L206 64 L246 70 L286 48" fill="none" stroke="#c2410c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <g fill="#c2410c"><circle cx="206" cy="64" r="3"/><circle cx="286" cy="48" r="3.5"/></g>
+          <g fill="#c2410c" opacity="0.5"><circle cx="40" cy="62" r="5"/><circle cx="40" cy="84" r="5"/><circle cx="40" cy="106" r="5"/></g>
+          <path d="M48 62 L66 78 M48 84 L66 88 M48 106 L66 100" stroke="#c2410c" stroke-width="1.3" fill="none" opacity="0.5"/>
+          <text x="183" y="152" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#9a3412" text-anchor="middle">telemetrie → další iterace</text>
+        </svg>
+        <div class="pc-body">
+          <div class="pc-line"><span class="pc-no">04</span><span class="pc-kind">Zisk</span></div>
+          <h3>Operation</h3>
+          <p class="pc-tag">Nasaď, sleduj — a sklízej</p>
+          <ul>
+            <li>Aplikace je <strong>živá</strong>, jdou na ni reální uživatelé</li>
+            <li>Telemetrie (<strong>PostHog</strong>) ukáže, co se reálně děje</li>
+            <li>Zpětná vazba → další iterace</li>
+            <li>Tohle je <strong>zisk</strong> — všechno předtím byla příprava</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 · MINDSET pipe -->
+  <section class="slide">
+    <div class="stage" style="width:980px">
+      <div class="slide-head"><span>Mindset</span></div>
+      <h2 class="title">Každý posun v abstrakci vyžaduje věřit nástroji, který dělá překlad</h2>
+      <div class="pipe">
+        <div class="axis"><div class="axis-line"></div><div class="axis-cap top"></div><div class="axis-label">ABSTRAKCE</div></div>
+        <div class="layer l1">
+          <div><span class="kick">Zítra · člověk</span><h2>Angličtina</h2></div>
+          <div class="sample">„Udělej mi aplikaci na…"</div>
+          <div class="desc">Přirozený jazyk. Řeknu, co chci. Zatím ne 100% spolehlivé. <strong>Zatím.</strong></div>
+        </div>
+        <div class="gate">
+          <div class="gate-arrow"><div class="flowdot" style="color:var(--amber)">↓</div></div>
+          <div class="gate-card ai"><span class="gate-name">AI</span><span class="gate-flow">překládá angličtinu → kód</span><span class="gate-trust learning">? učíme se věřit</span></div>
+        </div>
+        <div class="layer l2">
+          <div><span class="kick">Dnes</span><h2>Vyšší jazyky</h2></div>
+          <div class="sample">print("Ahoj")</div>
+          <div class="desc">C, Python, JavaScript. Píšeme v nich každý den.</div>
+        </div>
+        <div class="gate">
+          <div class="gate-arrow"><div class="flowdot" style="color:var(--green)">↓</div></div>
+          <div class="gate-card comp"><span class="gate-name">Kompilátor</span><span class="gate-flow">překládá → strojový kód</span><span class="gate-trust yes">✓ věříme naslepo</span></div>
+        </div>
+        <div class="layer l3">
+          <div><span class="kick">Včera · stroj</span><h2>Strojový kód</h2></div>
+          <div class="sample">mov rax, 1</div>
+          <div class="desc">Assembler, řeč procesoru. Psal jsem v něm — už nechci.</div>
+        </div>
+      </div>
+      <div class="note">Generovanému kódu věříme jako kompilátoru: <b>díky ověření, ne díky čtení.</b></div>
+    </div>
+  </section>
+
+  <!-- 12 · THANKS -->
+  <section class="slide thanks">
+    <div class="stage">
+      <div class="eyebrow">Děkuju za pozornost</div>
+      <h1>Díky<span class="hl">!</span></h1>
+      <div class="me"><img class="avatar" src="../shared/me.jpeg" alt="Václav Šlajs"><span class="who"><b>Václav Šlajs</b><span>Head of IT, YSoft</span></span></div>
+      <div class="contacts">
+        <a href="mailto:vaclav.slajs@ysoft.com">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="#c2410c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="M3 6l9 7 9-7"/></svg>
+          vaclav.slajs@ysoft.com
+        </a>
+        <a href="https://www.linkedin.com/in/vaclav-slajs/" target="_blank" rel="noopener">
+          <svg class="ico" viewBox="0 0 24 24" fill="#2563eb"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9.5h4V21H3zM9 9.5h3.8v1.57h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.75V21h-4v-5.3c0-1.26-.02-2.9-1.77-2.9-1.77 0-2.04 1.38-2.04 2.8V21H9z"/></svg>
+          /in/vaclav-slajs
+        </a>
+      </div>
+      <div class="qr-block">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=400x400&margin=0&data=https%3A%2F%2Ftalks.slajs.eu%2F2026-06-24-trusting-generated-code%2F" alt="QR kód na slajdy">
+        <span class="cap">slajdy online</span>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="deck-progress"><div class="deck-progress-fill"></div></div>
+<div class="deck-timer hidden" id="timer" title="T = zobrazit a spustit · R = restart">15:00</div>
+<div class="deck-hint">← → nebo mezerník pro další · F = celá obrazovka · T = časovač</div>
+<div class="deck-ui">
+  <div class="deck-dots"></div>
+  <div class="deck-counter">1 / 12</div>
+</div>
+
+<script src="../shared/deck.js" data-minutes="15"></script>
+</body>
+</html>

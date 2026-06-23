@@ -80,6 +80,33 @@ body {
 .chips { margin-top: 22px; display: flex; flex-wrap: wrap; gap: 12px; }
 .chips span { font-family: 'JetBrains Mono', monospace; font-size: 15px; background: var(--card); border: 1.5px solid var(--paper-line); border-radius: 8px; padding: 9px 16px; }
 
+/* flow — process step chain (steps + arrows + dashed loop + parallel cluster) */
+.flow { margin-top: 36px; display: flex; flex-wrap: wrap; align-items: stretch; gap: 12px; --acc: var(--amber); }
+.flow.green { --acc: var(--green); }
+.flow.blue { --acc: var(--blue); }
+.flow.purple { --acc: var(--purple); }
+.flow .step { display: flex; flex-direction: column; justify-content: center; background: var(--card); border: 1.5px solid var(--paper-line); border-top: 3px solid var(--acc); border-radius: 10px; padding: 14px 18px; box-shadow: 3px 4px 0 rgba(20,17,15,0.06); }
+.flow .step b { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 17px; display: block; letter-spacing: -0.01em; }
+.flow .step span { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); display: block; margin-top: 4px; }
+.flow .step.loop { border: 1.5px dashed var(--amber-soft); background: transparent; box-shadow: none; }
+.flow .step.last { background: var(--acc); border-color: var(--acc); }
+.flow .step.last b { color: var(--paper); }
+.flow .arrow { align-self: center; color: var(--acc); font-weight: 700; font-size: 18px; }
+.flow .cluster { display: flex; flex-direction: column; justify-content: center; gap: 7px; background: var(--card); border: 1.5px solid var(--paper-line); border-top: 3px solid var(--acc); border-radius: 10px; padding: 13px 15px; box-shadow: 3px 4px 0 rgba(20,17,15,0.06); }
+.flow .cluster .ct { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
+.flow .cluster b { font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 13px; background: var(--paper); border: 1px solid var(--paper-line); border-radius: 6px; padding: 6px 11px; text-align: center; }
+/* branch into parallel lanes (fan-out like the source diagram) */
+.flow .branch { display: flex; flex-direction: column; gap: 14px; border-left: 2px solid var(--acc); padding-left: 16px; }
+.flow .lane { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; }
+.flow .lane .lab { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--acc); font-weight: 600; min-width: 64px; }
+.flow .step.mini { padding: 10px 14px; }
+.flow .step.mini b { font-size: 14.5px; }
+.flow .arrow.sm { font-size: 15px; }
+
+/* framed diagram / screenshot image */
+.diagram { margin-top: 24px; border: 1.5px solid var(--paper-line); border-radius: 12px; background: #fff; box-shadow: 4px 5px 0 rgba(20,17,15,0.06); overflow: hidden; }
+.diagram img { width: 100%; display: block; }
+
 /* ---------- TITLE (standardized intro) ---------- */
 .title-slide .stage { text-align: center; }
 .eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 14px; letter-spacing: 4px; text-transform: uppercase; color: var(--amber); margin-bottom: 22px; }

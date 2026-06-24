@@ -1,7 +1,7 @@
 # presentations
 
 Talks by Václav Šlajs. Each talk lives in its own date-stamped subdirectory
-in the `YYYY-MM-DD-name` format, published via GitHub Pages.
+in the `YYYY-MM-DD-name` format, hosted on Cloudflare Workers (see **Publishing**).
 
 Live at **https://talks.slajs.eu/**
 
